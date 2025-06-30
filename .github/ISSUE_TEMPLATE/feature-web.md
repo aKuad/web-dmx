@@ -1,5 +1,5 @@
 ---
-name: Feature
+name: Feature - Web App
 about: Code editing of web app
 title: ''
 labels: tg/feature-web

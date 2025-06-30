@@ -1,5 +1,5 @@
 ---
-name: Feature
+name: Feature - Device
 about: Code editing of device firmware
 title: ''
 labels: tg/feature-dev
