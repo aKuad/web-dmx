@@ -19,7 +19,8 @@ jobs:
 
         while read file; do
           # Are there lines what has trailing whitespaces
-          if [ "`grep -E '\s+$' \"$file\"`" != "" ]; then
+          ## CRLF convert to LF before checking
+          if [ "`sed -e 's/\r$//g' \"$file\" | grep -E '\s+$'`" != "" ]; then
             violating_files="$violating_files$file%0A"  # %0A for newline at GitHub Actions log
           fi
         done << EOF
