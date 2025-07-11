@@ -27,7 +27,7 @@ Direction: Client <-> Server
 
 Direction: Client <- Server
 
-| Length \[bytes\] | Type  | Description           |
-| ---------------: | ----- | --------------------- |
-|                1 | uint8 | Packet type ID (0x11) |
-|              512 | uint8 | All channel values    |
+| Length \[bytes\] | Type  | Description                              |
+| ---------------: | ----- | ---------------------------------------- |
+|                1 | uint8 | Packet type ID (0x11)                    |
+|              512 | uint8 | All channel values, start from channel 1 |
