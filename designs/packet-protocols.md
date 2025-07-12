@@ -7,7 +7,7 @@ Direction: Server -> Device
 | Length \[bytes\] | Type        | Description    |
 | ---------------: | ----------- | -------------- |
 |                2 | uint16 (\*) | Channel number |
-|                1 | uint8       |                |
+|                1 | uint8       | Channel value  |
 
 > [!NOTE]
 >
