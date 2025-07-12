@@ -13,6 +13,22 @@ Direction: Server -> Device
 >
 > (\*) uint16 value must be little endian.
 
+## Lanes value request packet (device)
+
+Direction: Server -> Device
+
+| Length \[bytes\] | Type       | Description   |
+| ---------------: | ---------- | ------------- |
+|                1 | uint8 (\*) | Signal (0xFF) |
+
+## Lanes value response packet (device)
+
+Direction: Server <- Device
+
+| Length \[bytes\] | Type  | Description                              |
+| ---------------: | ----- | ---------------------------------------- |
+|              512 | uint8 | All channel values, start from channel 1 |
+
 ## Lane modify packet (web)
 
 Direction: Client <-> Server
