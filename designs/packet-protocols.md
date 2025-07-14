@@ -33,6 +33,10 @@ Direction: Server <- Device
 
 Direction: Client <-> Server
 
+Client to server: for own control send
+
+Server to client: for other client control sync
+
 | Length \[bytes\] | Type        | Description           |
 | ---------------: | ----------- | --------------------- |
 |                1 | uint8       | Packet type ID (0x10) |
