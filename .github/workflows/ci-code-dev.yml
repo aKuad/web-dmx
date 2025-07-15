@@ -1,0 +1,39 @@
+name: CI for code (dev)
+
+on:
+  push:
+    branches:
+    - 'main'
+    - 'feature-device/**'
+    - 'infra/**'
+
+jobs:
+  # Build check of PlatformIO project
+  c-pio-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_device/platform-io
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.13
+    - name: Try to restore PlatformIO files
+      uses: actions/cache@v4
+      id: platformio-restore
+      with:
+        path: .platformio
+        key: pio-build-${{ runner.os }}-${{ hashFiles('**/platformio.ini') }}
+    - name: Set up PlatformIO
+      if: steps.platformio-restore.outputs.cache-hit != 'true'
+      run: |
+        wget -O get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
+        python3 get-platformio.py
+        rm get-platformio.py
+    - name: Run PlatformIO build
+      run: |
+        ~/.platformio/penv/bin/platformio run -e nucleo_f303k8
