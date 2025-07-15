@@ -26,7 +26,7 @@ jobs:
       uses: actions/cache@v4
       id: platformio-restore
       with:
-        path: .platformio
+        path: ~/.platformio
         key: pio-build-${{ runner.os }}-${{ hashFiles('**/platformio.ini') }}
     - name: Set up PlatformIO
       if: steps.platformio-restore.outputs.cache-hit != 'true'
