@@ -22,18 +22,15 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.13
-    - name: Try to restore PlatformIO files
+    - name: Restore PlatformIO download caches
       uses: actions/cache@v4
       id: platformio-restore
       with:
-        path: ~/.platformio
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
         key: pio-build-${{ runner.os }}-${{ hashFiles('**/platformio.ini') }}
     - name: Set up PlatformIO
-      if: steps.platformio-restore.outputs.cache-hit != 'true'
-      run: |
-        wget -O get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
-        python3 get-platformio.py
-        rm get-platformio.py
+      run: pip install --upgrade platformio
     - name: Run PlatformIO build
-      run: |
-        ~/.platformio/penv/bin/platformio run -e nucleo_f303k8
+      run: pio run -e nucleo_f303k8
