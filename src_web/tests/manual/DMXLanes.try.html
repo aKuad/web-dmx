@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/DMXLanes/DMXLanes.css">
+    <script type="module">
+      /**
+       * Test for `DMXLanes.js`
+       *
+       * Test steps:
+       *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
+       *   2. Access to `http://localhost:8000/Try_MixerUI.html` with browser
+       *   3. Open JavaScript console
+       *   4. Click test control buttons
+       *   5. Check display view or console
+       *
+       * Test cases:
+       *   - Can dispatch event when any lane value changed (slider or value box) with channel and value
+       *   - Thrown RangeError if `channel` not in 1~512 at `DMXLanes.set_value()`
+       *   - Thrown RangeError if `value` not in 0~255 at `DMXLanes.set_value()`
+       */
+      import { DMXLanes } from "/static/DMXLanes/DMXLanes.js";
+      import { assertThrows_ecma } from "/test-util/assertThrows_ecma.js";
+
+      window.addEventListener("load", () => {
+        const dmx_lanes = new DMXLanes(document.getElementById("lanes-view"));
+
+        console.log("-- CHECK - On value changed, is an channel and value logged?");
+        dmx_lanes.addEventListener("value-changed", e => {
+          console.log(`channel: ${e.origin}, value: ${e.data}`);
+        });
+
+        document.getElementById("button-ch0-set-0").addEventListener("click", () => try_ch0_set_0(dmx_lanes));
+        document.getElementById("button-error-check").addEventListener("click", () => try_error_check(dmx_lanes));
+      });
+
+      function try_ch0_set_0(dmx_lanes) {
+        dmx_lanes.set_value(1, 0);
+      }
+
+      function try_error_check(dmx_lanes) {
+        assertThrows_ecma(() => dmx_lanes.set_value(  0,   0), RangeError, "channel must be in 1~512, but got 0");
+        assertThrows_ecma(() => dmx_lanes.set_value(513,   0), RangeError, "channel must be in 1~512, but got 513");
+        assertThrows_ecma(() => dmx_lanes.set_value(  1,  -1), RangeError, "value must be in 0~255, but got -1");
+        assertThrows_ecma(() => dmx_lanes.set_value(  1, 256), RangeError, "value must be in 0~255, but got 256");
+      }
+    </script>
+    <style>
+      html {
+        font-family: sans-serif;
+        font-size: 20px;
+      }
+      #lanes-view {
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p><button id="button-ch0-set-0">Set ch0 value 0</button></p>
+    <p><button id="button-error-check">Run set_value error check</button></p>
+    <div id="lanes-view"></div>
+  </body>
+</html>
