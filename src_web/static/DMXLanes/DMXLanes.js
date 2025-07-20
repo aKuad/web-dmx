@@ -110,6 +110,7 @@ export class DMXLanes extends EventTarget {
           if(active_slider_index === 0) return;  // When left end channel (ch 1) is active, do nothing
           this.#slider_elements[active_slider_index - 1].focus();
         }
+        return;
       }
 
       // Lane value control (with Shift/Ctrl/Alt key)
@@ -144,6 +145,7 @@ export class DMXLanes extends EventTarget {
           this.set_value(active_slider_index + 1, new_value, true);
           this.dispatchEvent(new MessageEvent("value-changed", { data: new_value, origin: active_slider_index + 1 }));
         }
+        return;
       }
     });
   }
