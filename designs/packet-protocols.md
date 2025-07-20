@@ -13,7 +13,7 @@ Direction: Server -> Device
 >
 > (\*) uint16 value must be little endian.
 
-## Lanes value request packet (device)
+## Value request packet (device)
 
 Direction: Server -> Device
 
@@ -21,7 +21,7 @@ Direction: Server -> Device
 | ---------------: | ---------- | ------------- |
 |                1 | uint8 (\*) | Signal (0xFF) |
 
-## Lanes value response packet (device)
+## Values response packet (device)
 
 Direction: Server <- Device
 
