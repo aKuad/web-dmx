@@ -45,13 +45,13 @@ Tags conventions also indicate below.
 >
 > Issue template selection and edit target is related.
 
-| Target word   | GitHub tag       | Issue template    | Description                           |
-| ------------- | ---------------- | ----------------- | ------------------------------------- |
-| `feature-dev` | `tg/feature-dev` | Feature - Device  | Code editing of device firmware       |
-| `feature-web` | `tg/feature-web` | Feature - Web App | Code editing                          |
-| `doc`         | `tg/doc`         | Documentation     | Document editing                      |
-| `infra`       | `tg/infra`       | Infrastructure    | Repository infrastructure maintaining |
-| `misc`        | `tg/misc`        | Miscellaneous     | Other of them                         |
+| Target word   | GitHub tag       | Issue template     | Description                           |
+| ------------- | ---------------- | ------------------ | ------------------------------------- |
+| `feature-fw`  | `tg/feature-fw`  | Feature - Firmware | Code editing of device firmware       |
+| `feature-web` | `tg/feature-web` | Feature - Web App  | Code editing                          |
+| `doc`         | `tg/doc`         | Documentation      | Document editing                      |
+| `infra`       | `tg/infra`       | Infrastructure     | Repository infrastructure maintaining |
+| `misc`        | `tg/misc`        | Miscellaneous      | Other of them                         |
 
 ### Action word
 
@@ -70,20 +70,20 @@ Tags conventions also indicate below.
 
 ### Source files location
 
-| Location                 | Items                                      |
-| ------------------------ | ------------------------------------------ |
-| `src_device/cube-mx`     | Firmware project of Cube MX                |
-| `src_device/platform-io` | Firmware project of platform.io            |
-| `src_web/modules`        | TS modules for server side                 |
-| `src_web/pages`          | HTML pages of client UI                    |
-| `src_web/static`         | JS modules for client & server side        |
-| `src_web/tests`          | Test code of modules in `modules`/`static` |
+| Location             | Items                                      |
+| -------------------- | ------------------------------------------ |
+| `src_fw/cube-mx`     | Firmware project of Cube MX                |
+| `src_fw/platform-io` | Firmware project of platform.io            |
+| `src_web/modules`    | TS modules for server side                 |
+| `src_web/pages`      | HTML pages of client UI                    |
+| `src_web/static`     | JS modules for client & server side        |
+| `src_web/tests`      | Test code of modules in `modules`/`static` |
 
 ### Files naming
 
 > [!NOTE]
 >
-> Not applied to firmware code in `src_device`.
+> Not applied to firmware code in `src_fw`.
 
 | Item                        | Convention (also `.ts` is) |
 | --------------------------- | -------------------------- |
@@ -94,7 +94,7 @@ Tags conventions also indicate below.
 
 > [!NOTE]
 >
-> Not applied to firmware code in `src_device`.
+> Not applied to firmware code in `src_fw`.
 
 Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md).
 

@@ -4,7 +4,7 @@ on:
   push:
     branches:
     - 'main'
-    - 'feature-device/**'
+    - 'feature-fw/**'
     - 'infra/**'
 
 jobs:
