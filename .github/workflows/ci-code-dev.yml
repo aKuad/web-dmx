@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src_device/platform-io
+        working-directory: src_fw/platform-io
 
     steps:
     - name: Source checkout
