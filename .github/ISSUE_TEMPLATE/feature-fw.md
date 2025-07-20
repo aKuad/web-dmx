@@ -1,8 +1,8 @@
 ---
-name: Feature - Device
+name: Feature - Firmware
 about: Code editing of device firmware
 title: ''
-labels: tg/feature-dev
+labels: tg/feature-fw
 assignees: ''
 
 ---
