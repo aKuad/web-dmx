@@ -1,4 +1,4 @@
-name: CI for code (dev)
+name: CI for code (fw)
 
 on:
   push:
