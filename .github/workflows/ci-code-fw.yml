@@ -1,10 +1,10 @@
-name: CI for code (dev)
+name: CI for code (fw)
 
 on:
   push:
     branches:
     - 'main'
-    - 'feature-device/**'
+    - 'feature-fw/**'
     - 'infra/**'
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src_device/platform-io
+        working-directory: src_fw/platform-io
 
     steps:
     - name: Source checkout
