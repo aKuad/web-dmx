@@ -1,0 +1,26 @@
+name: CI for code (web)
+
+on:
+  push:
+    branches:
+    - 'main'
+    - 'feature-web/**'
+    - 'infra/**'
+
+jobs:
+  # Lint all JS/TS code by Deno
+  denolint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_web
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
+    - name: Lint all js/ts files
+      run: deno lint
