@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.DMXLanes-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+
+.DMXLanes-lane {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin: 0;
+  padding: 1em 0.5em;
+}
+.DMXLanes-lane:nth-child(even) {
+  background-color: hsla(0, 0%, 80%, 0.5);
+}
+.DMXLanes-lane:has(input:focus) {
+  background-color: hsla(0, 100%, 80%, 0.5);
+}
+
+.DMXLanes-ch {
+  display: block;
+  margin: 0;
+}
+
+.DMXLanes-slider {
+  font-size: inherit;
+  display: block;
+  writing-mode: sideways-lr;
+  outline: none;
+
+  margin: 0.5em 0 0 0;
+  height: 10em;
+}
+
+.DMXLanes-value-box {
+  font-size: inherit;
+  display: block;
+  border: none;
+  border-bottom: 2px solid hsl(0, 0%, 50%);
+  background-color: hsla(0, 0%, 0%, 0);
+  color: inherit;
+  outline: none;
+
+  margin: 0.5em 0 0 0;
+  padding: 0.2em 0;
+  text-align: center;
+  width: 3em;
+}
+
+.DMXLanes-user-label {
+  margin: 2em 0 0 0;
+  min-width: 1em;
+  min-height: 1em;
+  writing-mode: vertical-rl;
+}
+.DMXLanes-user-label:empty, .DMXLanes-user-label:has(br):not(:has(div)) {
+  border: 1px solid hsla(0, 0%, 50%, 0.3);
+}
