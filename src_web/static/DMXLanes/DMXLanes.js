@@ -2,6 +2,10 @@
  * DMX control lanes UI
  */
 
+
+/**
+ * DMX control lanes UI
+ */
 export class DMXLanes extends EventTarget {
   /**
    * Lane elements array
