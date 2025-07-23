@@ -26,21 +26,21 @@ void true_lane_modify() {
   TEST_ASSERT_EQUAL(0, is_lane_modify_received());
   TEST_ASSERT_EQUAL(1, get_lane_modify_data(&channel, &value));
 
-  serial_input(0x01);
-  serial_input(0x00);
-  serial_input(0x00);
+  serial_input((DMX_CHANNEL_MIN >> 0) & 0xff);
+  serial_input((DMX_CHANNEL_MIN >> 8) & 0xff);
+  serial_input(DMX_VALUE_MIN);
   TEST_ASSERT_EQUAL(1, is_lane_modify_received());
   TEST_ASSERT_EQUAL(0, get_lane_modify_data(&channel, &value));
-  TEST_ASSERT_EQUAL(1, channel);
-  TEST_ASSERT_EQUAL(0, value);
+  TEST_ASSERT_EQUAL(DMX_CHANNEL_MIN, channel);
+  TEST_ASSERT_EQUAL(DMX_VALUE_MIN, value);
 
   serial_input((DMX_CHANNEL_MAX >> 0) & 0xff);
   serial_input((DMX_CHANNEL_MAX >> 8) & 0xff);
-  serial_input(0xff);
+  serial_input(DMX_VALUE_MAX);
   TEST_ASSERT_EQUAL(1, is_lane_modify_received());
   TEST_ASSERT_EQUAL(0, get_lane_modify_data(&channel, &value));
   TEST_ASSERT_EQUAL(DMX_CHANNEL_MAX, channel);
-  TEST_ASSERT_EQUAL(255, value);
+  TEST_ASSERT_EQUAL(DMX_VALUE_MAX  , value);
 
   TEST_ASSERT_EQUAL(0, is_lane_modify_received());
   TEST_ASSERT_EQUAL(1, get_lane_modify_data(&channel, &value));
@@ -56,12 +56,12 @@ void err_lane_modify_invalid_channel() {
 
   serial_input(0x00); // Channel 0 as invalid input
   serial_input(0x00);
-  serial_input(0x00); // Value 0x00, but won't be used
+  serial_input(DMX_VALUE_MIN);  // Value 0x00, but won't be used
   TEST_ASSERT_EQUAL(0, is_lane_modify_received());
 
   serial_input(((DMX_CHANNEL_MAX + 1) >> 0) & 0xff); // Channel 513 as invalid input
   serial_input(((DMX_CHANNEL_MAX + 1) >> 8) & 0xff);
-  serial_input(0x00); // Value 0x00, but won't be used
+  serial_input(DMX_VALUE_MIN);  // Value 0x00, but won't be used
   TEST_ASSERT_EQUAL(0, is_lane_modify_received());
 }
 

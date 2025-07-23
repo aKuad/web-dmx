@@ -8,6 +8,9 @@
 
 
 #define DMX_CHANNEL_MAX 512
+#define DMX_CHANNEL_MIN 1
+#define DMX_VALUE_MAX 255
+#define DMX_VALUE_MIN 0
 
 
 void serial_input(uint8_t byte);
