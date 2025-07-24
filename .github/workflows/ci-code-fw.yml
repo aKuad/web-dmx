@@ -34,3 +34,31 @@ jobs:
       run: pip install --upgrade platformio
     - name: Run PlatformIO build
       run: pio run -e nucleo_f303k8
+
+
+  # Unittest of PlatformIO project
+  c-pio-unittest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_fw/platform-io
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.13
+    - name: Restore PlatformIO download caches
+      uses: actions/cache@v4
+      id: platformio-restore
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
+        key: pio-unittest-${{ runner.os }}-${{ hashFiles('**/platformio.ini') }}
+    - name: Set up PlatformIO
+      run: pip install --upgrade platformio
+    - name: Run PlatformIO test
+      run: pio test -e native_test
