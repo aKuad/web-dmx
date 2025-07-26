@@ -47,7 +47,7 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+uint8_t vcp_rx_buf;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,7 +63,12 @@ static void MX_TIM7_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if(huart == &huart2) {
+    serial_input(vcp_rx_buf);
+    HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for next serial RX
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -100,6 +105,7 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
 
   /* USER CODE END 2 */
 
@@ -107,6 +113,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(is_values_request_received()) {
+      reset_values_request_received();
+    }
+    if(is_lane_modify_received()) {
+      uint16_t channel;
+      uint8_t value;
+      get_lane_modify_data(&channel, &value);
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
