@@ -1,14 +1,13 @@
 # Device source
 
-This device firmware development using [Cube MX](https://www.st.com/en/development-tools/stm32cubemx.html) and [PlatformIO](https://platformio.org/).
+This device firmware development using:
 
-Cube MX for MCU (NUCLEO-F303K8) device initialization code generating.
-
-PlatformIO for code compiling, uploading and debugging.
+- [Cube MX](https://www.st.com/en/development-tools/stm32cubemx.html) for MCU (NUCLEO-F303K8) device initialization code generating.
+- [PlatformIO](https://platformio.org/) for code compiling, uploading and debugging.
 
 ## Basically code editing
 
-Open `platform-io` directory on Visual Studio Code with PlatformIO extension. Then just editing sources.
+Open `platform-io` directory by Visual Studio Code with [PlatformIO extension](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide). Then just editing sources.
 
 For compiling, debugging and some operations of PlatformIO, [official tutorial](https://docs.platformio.org/en/latest/tutorials/ststm32/stm32cube_debugging_unit_testing.html) is available.
 
