@@ -86,7 +86,7 @@ export function decode_lane_modify_packet(packet) {
  * @returns {boolean} `packet` is lane-modify packet: true, otherwise: false
  */
 export function is_lane_modify_packet(packet) {
-  if(packet.byteLength != 4) return false;
+  if(packet.byteLength !== 4) return false;
 
   const packet_id = new DataView(packet).getUint8(0);
   return packet_id === PACKET_ID_LANE_MODIFY;
