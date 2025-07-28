@@ -25,3 +25,32 @@ jobs:
         cache: true
     - name: Lint all js/ts files
       run: deno lint
+
+
+  # Run all JS/TS unit-tests by Deno
+  denotest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_web/tests/denotest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
+        cache: true
+    - name: Run all unit tests
+      run: deno test --parallel --coverage
+    - name: Report coverage as actions summary
+      env:
+        NO_COLOR: "true"  # Disable deno color output
+      run: |
+        echo '## Deno coverage report' >> $GITHUB_STEP_SUMMARY
+        echo >> $GITHUB_STEP_SUMMARY  # Print blank newline
+        deno coverage | grep -E -v '^-+$' | sed -e 's/^/|/g' | sed '2i|---|---|---|' >> $GITHUB_STEP_SUMMARY
+        #               remove '---...' line
+        #                                   add '|' to line head
+        #                                                      complete markdown table syntax
