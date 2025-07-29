@@ -107,13 +107,18 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
 
+  uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
+  dmx_values[0] = DMX_START_CODE;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // Values request packet processing
     if(is_values_request_received()) {
+      HAL_UART_Transmit_IT(&huart1, dmx_values + 1, DMX_CHANNEL_COUNT);
+      //              +1 for ignore start code ~~~
       reset_values_request_received();
     }
     if(is_lane_modify_received()) {

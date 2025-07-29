@@ -75,7 +75,8 @@ void Error_Handler(void);
 #define VCP_RX_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-
+#define DMX_CHANNEL_COUNT 512
+#define DMX_START_CODE 0x00
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
