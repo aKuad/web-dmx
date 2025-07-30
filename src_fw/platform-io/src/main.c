@@ -121,10 +121,13 @@ int main(void)
       //              +1 for ignore start code ~~~
       reset_values_request_received();
     }
+
+    // Value modify packet processing
     if(is_lane_modify_received()) {
       uint16_t channel;
       uint8_t value;
       get_lane_modify_data(&channel, &value);
+      dmx_values[channel] = value;  // The array [0] is start code, channel start from 1
     }
     /* USER CODE END WHILE */
 
