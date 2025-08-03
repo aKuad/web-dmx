@@ -48,6 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 uint8_t vcp_rx_buf;
+uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,6 +64,54 @@ static void MX_TIM7_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/**
+ * Timers for DMX Break and MAB (Mark After Break) signal duration control
+ *
+ * @code
+ *                Break (set low) -> MAB (set high) -> Data signal
+ *                |                  |                 |
+ * [UART1 end]--- | -----[TIM6]----- | -----[TIM7]---- | ---[UART1]
+ *                |      > 88us      |      > 8us
+ * @endcode
+ *
+ * @note Actual Break and MAB signal been longer than 88us, 8us, cause of UART init/deinit process
+ */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  // Break signal duration elapsed
+  if(htim == &htim6) {
+    HAL_GPIO_WritePin(DMX_OUT_GPIO_Port, DMX_OUT_Pin, GPIO_PIN_SET);  // Break signal end, MAB signal start
+    HAL_UART_Init(&huart1);                                           //
+    HAL_TIM_Base_Start_IT(&htim7);  // MAB signal timer start
+
+    // Reset own timer
+    HAL_TIM_Base_Stop_IT(&htim6);
+    htim6.Instance->CNT = 0;
+  }
+
+  // MAB signal duration elapsed
+  else if(htim == &htim7) {
+    HAL_UART_Transmit_IT(&huart1, dmx_values, DMX_CHANNEL_COUNT + 1); // Data signal start
+    //                                           for start code ~~~
+    // Reset own timer
+    HAL_TIM_Base_Stop_IT(&htim7);
+    htim7.Instance->CNT = 0;
+  }
+}
+
+/**
+ * On DMX data transmit ended, next frame Break signal start
+ */
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+  if(huart == &huart1) {
+    HAL_UART_DeInit(&huart1);                                           //
+    HAL_GPIO_WritePin(DMX_OUT_GPIO_Port, DMX_OUT_Pin, GPIO_PIN_RESET);  // Break signal start
+    HAL_TIM_Base_Start_IT(&htim6);  // Break signal timer start
+  }
+}
+
+/**
+ * For receive FW control packets from PC (web server)
+ */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   if(huart == &huart2) {
     serial_input(vcp_rx_buf);
@@ -105,14 +154,14 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
-
-  uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
   dmx_values[0] = DMX_START_CODE;
+  HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
+  HAL_TIM_Base_Start_IT(&htim6);  // Start DMX signal transmit sequence
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  // The loop does only packet processing, not DMX transmitting
   while (1)
   {
     // Values request packet processing
