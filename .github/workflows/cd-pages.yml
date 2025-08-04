@@ -11,15 +11,15 @@ jobs:
         working-directory: src_fw/platform-io
 
     steps:
-      - name: Source checkout
-        uses: actions/checkout@v4
-      - name: Set up Doxygen
-        run: sudo apt install -y doxygen
-      - name: Generate FW document
-        run: doxygen
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-fw-api
-          path: src_fw/platform-io/docs/html/
-          retention-days: 1
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Doxygen
+      run: sudo apt install -y doxygen
+    - name: Generate FW document
+      run: doxygen
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-fw-api
+        path: src_fw/platform-io/docs/html/
+        retention-days: 1
