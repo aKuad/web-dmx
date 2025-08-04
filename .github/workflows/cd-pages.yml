@@ -1,4 +1,4 @@
-name: CD for GitHub Pages
+name: CD for dev docs (fw & web)
 
 on: push
 
