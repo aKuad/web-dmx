@@ -156,7 +156,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   dmx_values[0] = DMX_START_CODE;
   HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
-  HAL_TIM_Base_Start_IT(&htim6);  // Start DMX signal transmit sequence
+  HAL_UART_TxCpltCallback(&huart1); // Start DMX signal transmit sequence (from data signal TX ended)
   /* USER CODE END 2 */
 
   /* Infinite loop */
