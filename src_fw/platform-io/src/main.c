@@ -67,11 +67,15 @@ static void MX_TIM7_Init(void);
 /**
  * Timers for DMX Break and MAB (Mark After Break) signal duration control
  *
+ * @param[in] htim Period elapsed timer handler
+ *
+ * DMX signal transmit sequence below:
+ *
  * @code
  *                Break (set low) -> MAB (set high) -> Data signal
  *                |                  |                 |
  * [UART1 end]--- | -----[TIM6]----- | -----[TIM7]---- | ---[UART1]
- *                |      > 88us      |      > 8us
+ *                |      > 88us      |      > 8us      |
  * @endcode
  *
  * @note Actual Break and MAB signal been longer than 88us, 8us, cause of UART init/deinit process
@@ -100,6 +104,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 /**
  * On DMX data transmit ended, next frame Break signal start
+ *
+ * @param[in] huart TX completed uart handler
  */
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
   if(huart == &huart1) {
@@ -111,6 +117,8 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 
 /**
  * For receive FW control packets from PC (web server)
+ *
+ * @param[in] huart RX completed uart handler
  */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   if(huart == &huart2) {
