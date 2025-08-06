@@ -35,7 +35,8 @@ void serial_input(uint8_t byte) {
 
   if(bytes_buffer_remain == 3) {
     uint16_t channel = (bytes_buffer[1] << 8) | bytes_buffer[0];  // Read 2bytes as little endian
-    if(1 <= channel && channel <= DMX_CHANNEL_MAX) {
+    // Check is channel in correct range, if not, just empty buffer
+    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
       channel_next = channel;
       value_next = bytes_buffer[2];
       is_lane_modify_received_flag = 1;
