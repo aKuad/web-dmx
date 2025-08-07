@@ -3,6 +3,11 @@
  */
 
 import { serveDir, serveFile } from "jsr:@std/http@1";
+import { DMX_CHANNEL_COUNT, encode_lanes_initialize_packet } from "./static/packet/lanes_initialize.js";
+
+const dmx_values = new Uint8Array(DMX_CHANNEL_COUNT);
+dmx_values[1] = 255;  // Channel 2 set 255
+dmx_values[2] = 100;  // Channel 3 set 100 for lanes-initialize packet test
 
 
 Deno.serve(request => {
@@ -21,8 +26,10 @@ Deno.serve(request => {
     if(request.headers.get("upgrade") !== "websocket")
       return new Response("This API is for websocket, protocol upgrade required", { status: 426 });
 
-    const { response } = Deno.upgradeWebSocket(request);
-    // Just only upgrade, do nothing for now
+    const { response, socket } = Deno.upgradeWebSocket(request);
+    socket.addEventListener("open", () => {
+      socket.send(encode_lanes_initialize_packet(dmx_values));
+    });
     return response;
   }
 
