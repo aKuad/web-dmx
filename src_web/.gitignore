@@ -1,2 +1,5 @@
 # Deno test coverage report
 coverage
+
+# Deno doc output
+docs

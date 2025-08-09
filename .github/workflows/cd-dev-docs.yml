@@ -1,0 +1,84 @@
+name: CD for dev docs (fw & web)
+
+on:
+  push:
+    branches:
+    - 'main'
+    - 'feature-fw/**'
+    - 'feature-web/**'
+    - 'doc/**'
+    - 'infra/**'
+
+jobs:
+  # Generate Doxygen doc for FW api
+  build-fw-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_fw/platform-io
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Generate FW api document
+      run: docker run --rm -v ./:/github/workspace -w /github/workspace ghcr.io/doxygen/doxygen:Release_1_14_0
+    - name: Upload generated docs
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-fw-api
+        path: src_fw/platform-io/docs/html/
+        retention-days: 1
+
+
+  # Generate Deno doc for WebApp api
+  build-webapp-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_web
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
+    - name: Generate WebApp api document
+      run: |
+        deno doc --html --name="Web DMX" --private static/*/*.js
+        cp -f docs/all_symbols.html docs/index.html
+    - name: Upload generated docs
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-webapp-api
+        path: src_web/docs/
+        retention-days: 1
+
+
+  # Generate Deno test coverage for WebApp modules
+  build-webapp-coverage:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src_web/tests/denotest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
+    - name: Run all tests
+      run: deno test --parallel --coverage
+    - name: Export coverage report as HTML
+      if: always()
+      run: deno coverage --html
+    - name: Upload generated report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-webapp-coverage
+        path: src_web/tests/denotest/coverage/html/
+        retention-days: 1

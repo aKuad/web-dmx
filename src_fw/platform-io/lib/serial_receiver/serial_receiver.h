@@ -1,6 +1,8 @@
 #ifndef __SERIAL_RECEIVER__
 #define __SERIAL_RECEIVER__
 /**
+ * @file serial_receiver.h
+ *
  * Bytes processing module for 'Lane modify packet' and 'Value request packet' receiving
  */
 
