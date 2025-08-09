@@ -17,6 +17,8 @@ body {
 header {
   margin: 0 0 3rem 0;
   padding: 0.2em 0.5em;
+  white-space: nowrap;
+  overflow-x: hidden;
 
   background-color: hsl(0, 0%, 20%);
   border-bottom: solid 2px #000;
