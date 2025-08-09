@@ -19,7 +19,8 @@ globalThis.addEventListener("load", () => {
     const channel = Number(e.origin);
     const value = e.data;
     const packet = encode_lane_modify_packet(channel, value);
-    ws.send(packet);
+    if(ws.readyState === ws.OPEN)
+      ws.send(packet);
   });
 
 
