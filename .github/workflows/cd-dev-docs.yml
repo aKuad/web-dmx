@@ -20,10 +20,8 @@ jobs:
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
-    - name: Set up Doxygen
-      run: sudo apt install -y doxygen
     - name: Generate FW api document
-      run: doxygen
+      run: docker run --rm -v ./:/github/workspace -w /github/workspace ghcr.io/doxygen/doxygen:Release_1_14_0
     - name: Upload generated docs
       uses: actions/upload-artifact@v4
       with:
