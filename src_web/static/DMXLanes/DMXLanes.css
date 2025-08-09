@@ -3,7 +3,6 @@
 .DMXLanes-container {
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
 }
 
 .DMXLanes-lane {
