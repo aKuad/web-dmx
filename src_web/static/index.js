@@ -30,7 +30,6 @@ globalThis.addEventListener("load", () => {
       dmx_lanes.set_value(channel, value);
 
     } else if(is_lanes_initialize_packet(e.data)) {
-      console.log("init");
       const values = decode_lanes_initialize_packet(e.data);
       values.forEach((value, index) => dmx_lanes.set_value(index + 1, value));
     }
