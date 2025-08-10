@@ -10,6 +10,26 @@ on:
     - 'infra/**'
 
 jobs:
+  # Prepare index page
+  prepare-index:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Rename file to index.html
+      run: mv dev-docs-index.html index.html
+    - name: Output page as an artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: index
+        path: assets/index.html
+        retention-days: 1
+
+
   # Generate Doxygen doc for FW api
   build-fw-api:
     runs-on: ubuntu-latest
@@ -82,3 +102,55 @@ jobs:
         name: build-webapp-coverage
         path: src_web/tests/denotest/coverage/html/
         retention-days: 1
+
+
+  # GitHub Pages artifact prepare
+  prepare-pages-artifact:
+    runs-on: ubuntu-latest
+    needs: [prepare-index, build-fw-api, build-webapp-api, build-webapp-coverage]
+
+    steps:
+    - name: Place index
+      uses: actions/download-artifact@v4
+      with:
+        name: index
+        path: .
+    - name: Place fw-api
+      uses: actions/download-artifact@v4
+      with:
+        name: build-fw-api
+        path: fw-api
+    - name: Place webapp-api
+      uses: actions/download-artifact@v4
+      with:
+        name: build-webapp-api
+        path: webapp-api
+    - name: Place webapp-coverage
+      uses: actions/download-artifact@v4
+      with:
+        name: build-webapp-coverage
+        path: webapp-coverage
+    - name: Upload artifact for pages deploy
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+
+
+  # GitHub Pages deployment
+  deploy-pages:
+    # Deployment for only main branch, build steps are for all
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+    needs: [prepare-pages-artifact]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+
+    steps:
+    - name: Deploy pages
+      id: deploy-pages
+      uses: actions/deploy-pages@v4
