@@ -1,4 +1,6 @@
 /**
+ * @file serial_receiver.c
+ *
  * Bytes processing module for 'Lane modify packet' and 'Value request packet' receiving
  */
 
