@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--
+    This is UI demo page of document on GitHub pages.
+    Used by `cd-dev-docs.yml` actions workflow.
+
+    Author: aKuad
+  -->
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web DMX client UI demo">
+    <meta property="og:title" content="Web DMX - UI demo">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Web DMX client UI demo">
+    <meta property="og:image" content="https://akuad.github.io/web-dmx/ui-demo/head-image.webp">
+    <meta property="og:url" content="https://github.com/aKuad/web-dmx/ui-demo">
+    <link rel="stylesheet" href="./DMXLanes/DMXLanes.css">
+    <link rel="stylesheet" href="./index.css">
+    <script type="module">
+      import { DMXLanes } from "./DMXLanes/DMXLanes.js";
+
+      globalThis.addEventListener("load", () => {
+        new DMXLanes(document.getElementById("dmx-lanes-container"));
+      });
+    </script>
+    <title>Web DMX - UI demo</title>
+  </head>
+
+  <body>
+    <header><img id="head-icon" src="./icon.svg"><div">Web DMX</div></header>
+    <div id="dmx-lanes-scroller"><div id="dmx-lanes-container"></div></div>
+    <div id="error-view">It is UI demo</div>
+  </body>
+</html>
