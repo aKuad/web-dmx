@@ -33,9 +33,6 @@ jobs:
   # Prepare app main UI demo page
   prepare-ui-demo:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: src_fw/platform-io
 
     steps:
     - name: Source checkout
