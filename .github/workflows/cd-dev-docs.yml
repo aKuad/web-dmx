@@ -43,12 +43,12 @@ jobs:
     - name: Prepare files
       run: |
         mkdir ui-demo-work
-        mv    assets/ui-demo-index.html ui-demo-work/index.html
-        mv    assets/head-image.webp   ui-demo-work/
-        mv -r src_web/static/DMXLanes/ ui-demo-work/
-        mv    src_web/static/index.css ui-demo-work/
-        mv    src_web/static/icon.svg  ui-demo-work/
-        mv    src_web/favicon.ico      ui-demo-work/
+        mv assets/ui-demo-index.html ui-demo-work/index.html
+        mv assets/head-image.webp    ui-demo-work/
+        mv src_web/static/DMXLanes/  ui-demo-work/
+        mv src_web/static/index.css  ui-demo-work/
+        mv src_web/static/icon.svg   ui-demo-work/
+        mv src_web/favicon.ico       ui-demo-work/
     - name: Upload generated docs
       uses: actions/upload-artifact@v4
       with:
