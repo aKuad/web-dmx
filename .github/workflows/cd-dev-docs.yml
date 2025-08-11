@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v4
     - name: Rename file to index.html
       run: mv dev-docs-index.html index.html
-    - name: Output page as an artifact
+    - name: Upload prepared files
       uses: actions/upload-artifact@v4
       with:
         name: prepare-index
@@ -46,7 +46,7 @@ jobs:
         mv src_web/static/index.css  ui-demo-work/
         mv src_web/static/icon.svg   ui-demo-work/
         mv src_web/favicon.ico       ui-demo-work/
-    - name: Upload generated docs
+    - name: Upload prepared files
       uses: actions/upload-artifact@v4
       with:
         name: prepare-ui-demo
