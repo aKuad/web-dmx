@@ -58,7 +58,7 @@ export function encode_lane_modify_packet(channel, value) {
  *
  * @typedef {Object} LaneModifyPacketData
  * @property {number} channel Modified channel
- * @property {boolean} value Value
+ * @property {number} value Value
  */
 
 /**
