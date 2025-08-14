@@ -8,8 +8,6 @@ import { decode_lane_modify_packet, is_lane_modify_packet } from "./static/packe
 
 
 const dmx_values = new Uint8Array(DMX_CHANNEL_COUNT);
-dmx_values[1] = 255;  // Channel 2 set 255
-dmx_values[2] = 100;  // Channel 3 set 100 for lanes-initialize packet test
 
 
 Deno.serve(request => {
@@ -35,8 +33,10 @@ Deno.serve(request => {
     });
     // On lane controlled by client
     socket.addEventListener("message", e => {
-      if(is_lane_modify_packet(e.data))
-        console.log(decode_lane_modify_packet(e.data));
+      if(is_lane_modify_packet(e.data)) {
+        const { channel, value } = decode_lane_modify_packet(e.data);
+        dmx_values[channel-1] = value;
+      }
     });
     return response;
   }
