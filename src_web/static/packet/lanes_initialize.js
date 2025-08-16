@@ -2,6 +2,8 @@
  * Encoding/decoding functions for lanes-initialize packet
  *
  * More detail of packet protocol, see `designs/packet-protocols.md`
+ *
+ * @module
  */
 
 
