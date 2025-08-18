@@ -15,7 +15,7 @@
 #define DMX_VALUE_MIN 0
 
 
-void serial_input(uint8_t byte);
+void serial_input(uint8_t *byte);
 uint8_t is_lane_modify_received();
 uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value);
 uint8_t is_values_request_received();

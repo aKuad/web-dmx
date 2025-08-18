@@ -122,7 +122,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
  */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   if(huart == &huart2) {
-    serial_input(vcp_rx_buf);
+    // serial_input(vcp_rx_buf);  // Turn off temporary - under construction
     HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for next serial RX
   }
 }
