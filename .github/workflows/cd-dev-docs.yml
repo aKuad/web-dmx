@@ -22,11 +22,35 @@ jobs:
       uses: actions/checkout@v4
     - name: Rename file to index.html
       run: mv dev-docs-index.html index.html
-    - name: Output page as an artifact
+    - name: Upload prepared files
       uses: actions/upload-artifact@v4
       with:
-        name: index
+        name: prepare-index
         path: assets/index.html
+        retention-days: 1
+
+
+  # Prepare app main UI demo page
+  prepare-ui-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Prepare files
+      run: |
+        mkdir ui-demo-work
+        mv assets/ui-demo-index.html ui-demo-work/index.html
+        mv assets/head-image.webp    ui-demo-work/
+        mv src_web/static/DMXLanes/  ui-demo-work/
+        mv src_web/static/index.css  ui-demo-work/
+        mv src_web/static/icon.svg   ui-demo-work/
+        mv src_web/favicon.ico       ui-demo-work/
+    - name: Upload prepared files
+      uses: actions/upload-artifact@v4
+      with:
+        name: prepare-ui-demo
+        path: ui-demo-work/
         retention-days: 1
 
 
@@ -107,14 +131,19 @@ jobs:
   # GitHub Pages artifact prepare
   prepare-pages-artifact:
     runs-on: ubuntu-latest
-    needs: [prepare-index, build-fw-api, build-webapp-api, build-webapp-coverage]
+    needs: [prepare-index, prepare-ui-demo, build-fw-api, build-webapp-api, build-webapp-coverage]
 
     steps:
     - name: Place index
       uses: actions/download-artifact@v4
       with:
-        name: index
+        name: prepare-index
         path: .
+    - name: Place ui-demo
+      uses: actions/download-artifact@v4
+      with:
+        name: prepare-ui-demo
+        path: ui-demo
     - name: Place fw-api
       uses: actions/download-artifact@v4
       with:
