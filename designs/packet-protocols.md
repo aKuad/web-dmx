@@ -17,9 +17,9 @@ Direction: Server -> Device
 
 Direction: Server -> Device
 
-| Length \[bytes\] | Type       | Description   |
-| ---------------: | ---------- | ------------- |
-|                1 | uint8 (\*) | Signal (0xFF) |
+| Length \[bytes\] | Type       | Description        |
+| ---------------: | ---------- | ------------------ |
+|                3 | uint8 (\*) | Signal (0xFF \* 3) |
 
 ## Values response packet (device)
 

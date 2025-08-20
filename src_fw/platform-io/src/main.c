@@ -47,7 +47,7 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t vcp_rx_buf;
+uint8_t vcp_rx_buf[3];
 uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
 /* USER CODE END PV */
 
@@ -123,7 +123,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   if(huart == &huart2) {
     serial_input(vcp_rx_buf);
-    HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for next serial RX
+    HAL_UART_Receive_IT(&huart2, vcp_rx_buf, 3); // Start listening for next serial RX
   }
 }
 /* USER CODE END 0 */
@@ -163,7 +163,7 @@ int main(void)
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   dmx_values[0] = DMX_START_CODE;
-  HAL_UART_Receive_IT(&huart2, &vcp_rx_buf, 1); // Start listening for first serial RX
+  HAL_UART_Receive_IT(&huart2, vcp_rx_buf, 3); // Start listening for first serial RX
   HAL_UART_TxCpltCallback(&huart1); // Start DMX signal transmit sequence (from data signal TX ended)
   /* USER CODE END 2 */
 

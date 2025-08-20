@@ -7,9 +7,6 @@
 #include "serial_receiver.h"
 
 
-static uint8_t bytes_buffer[3];
-static uint8_t bytes_buffer_remain = 0;
-
 static uint16_t channel_next = 0;
 static uint8_t value_next = 0;
 
@@ -18,32 +15,24 @@ static uint8_t is_values_request_received_flag = 0;
 
 
 /**
- * Input a byte
+ * Input bytes
  *
- * @param[in] byte Data input from serial
+ * @param[in] byte Data input from serial (length must be 3bytes)
  */
-void serial_input(uint8_t byte) {
-  // Values request packet processing
-  if(bytes_buffer_remain == 0 && byte == 0xff) {
+void serial_input(uint8_t *bytes) {
+  // Check values request packet
+  if((bytes[0] & bytes[1] & bytes[2]) == 0xff) {
     is_values_request_received_flag = 1;
     return;
   }
 
   // Lane modify packet processing
-  if(bytes_buffer_remain < 3) { // Safety of segmentation fault (out of array range access)
-    bytes_buffer[bytes_buffer_remain] = byte;
-    bytes_buffer_remain++;
-  }
-
-  if(bytes_buffer_remain == 3) {
-    uint16_t channel = (bytes_buffer[1] << 8) | bytes_buffer[0];  // Read 2bytes as little endian
-    // Check is channel in correct range, if not, just empty buffer
-    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
-      channel_next = channel;
-      value_next = bytes_buffer[2];
-      is_lane_modify_received_flag = 1;
-    }
-    bytes_buffer_remain = 0;
+  uint16_t channel = (bytes[1] << 8) | bytes[0];  // Read 2bytes as little endian
+  //// Check is channel in correct range, if not, do nothing
+  if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
+    channel_next = channel;
+    value_next = bytes[2];
+    is_lane_modify_received_flag = 1;
   }
 }
 
