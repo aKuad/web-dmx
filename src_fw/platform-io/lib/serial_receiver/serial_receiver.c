@@ -15,7 +15,7 @@ static uint8_t is_values_request_received_flag = 0;
 
 
 /**
- * Input bytes
+ * @brief Input bytes
  *
  * @param[in] byte Data input from serial (length must be 3bytes)
  */
@@ -38,7 +38,7 @@ void serial_input(uint8_t *bytes) {
 
 
 /**
- * Check a lane modify packet is received
+ * @brief Check a lane modify packet is received
  *
  * @return 0: not received, 1: received
  */
@@ -48,7 +48,7 @@ uint8_t is_lane_modify_received() {
 
 
 /**
- * Get lane modify packet data and reset the flag of lane modify packet received
+ * @brief Get lane modify packet data and reset the flag of lane modify packet received
  *
  * @param[out] channel Received data body - channel
  * @param[out] value Received data body - value
@@ -65,7 +65,7 @@ uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value) {
 
 
 /**
- * Check a values request packet is received
+ * @brief Check a values request packet is received
  *
  * @return 0: not received, 1: received
  */
