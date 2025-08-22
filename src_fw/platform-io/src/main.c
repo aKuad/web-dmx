@@ -65,7 +65,7 @@ static void MX_TIM7_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 /**
- * Timers for DMX Break and MAB (Mark After Break) signal duration control
+ * @brief Timers for DMX Break and MAB (Mark After Break) signal duration control
  *
  * @param[in] htim Period elapsed timer handler
  *
@@ -103,7 +103,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 }
 
 /**
- * On DMX data transmit ended, next frame Break signal start
+ * @brief DMX data transmit ended, next frame Break signal start
  *
  * @param[in] huart TX completed uart handler
  */
@@ -116,7 +116,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 }
 
 /**
- * For receive FW control packets from PC (web server)
+ * @brief For receive FW control packets from PC (web server)
  *
  * @param[in] huart RX completed uart handler
  */
