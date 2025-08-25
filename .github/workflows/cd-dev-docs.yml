@@ -13,20 +13,20 @@ jobs:
   # Prepare index page
   prepare-index:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: assets
 
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
     - name: Rename file to index.html
-      run: mv dev-docs-index.html index.html
+      run: |
+        mkdir index-work
+        mv assets/dev-docs-index.html index-work/index.html
+        mv src_web/favicon.ico        index-work/
     - name: Upload prepared files
       uses: actions/upload-artifact@v4
       with:
         name: prepare-index
-        path: assets/index.html
+        path: index-work/
         retention-days: 1
 
 
