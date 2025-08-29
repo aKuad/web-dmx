@@ -6,6 +6,8 @@ DMX control on web application
 
 [UI demo is available.](https://akuad.github.io/web-dmx/ui-demo/)
 
+[Develop documentation is here.](https://akuad.github.io/web-dmx/)
+
 ![Head image](./assets/head-image.gif)
 
 ## Usage
