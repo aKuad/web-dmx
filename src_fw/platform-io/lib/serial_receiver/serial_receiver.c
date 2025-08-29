@@ -75,7 +75,7 @@ uint8_t is_values_request_received() {
 
 
 /**
- * Reset the flag of values request packet received
+ * @brief Reset the flag of values request packet received
  */
 void reset_values_request_received() {
   is_values_request_received_flag = 0;
