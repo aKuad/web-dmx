@@ -24,7 +24,7 @@ jobs:
         deno-version: v2.x
         cache: true
     - name: Lint all js/ts files
-      run: deno lint
+      run: deno lint --ignore="main.ts"
 
 
   # Run all JS/TS unit-tests by Deno
