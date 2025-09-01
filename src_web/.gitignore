@@ -3,3 +3,6 @@ coverage
 
 # Deno doc output
 docs
+
+# Node.js
+node_modules
