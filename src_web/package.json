@@ -1,0 +1,22 @@
+{
+  "name": "web-dmx",
+  "version": "0.0.0",
+  "description": "DMX control on web application",
+  "main": "main.ts",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aKuad/web-dmx.git"
+  },
+  "author": "aKuad",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/aKuad/web-dmx/issues"
+  },
+  "homepage": "https://github.com/aKuad/web-dmx#readme"
+}
