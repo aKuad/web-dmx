@@ -35,7 +35,18 @@ pio run -e nucleo_f303k8 -t upload
 
 ### 2. WebApp setting up
 
-Work in progress
+Launch web server on [Node.js](https://nodejs.org/).
+
+```sh
+cd src_web
+npm ci
+
+# Without device
+npm start
+
+# With device
+npm start <device path or COM port name>
+```
 
 ### 3. Client access
 
