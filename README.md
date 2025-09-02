@@ -58,8 +58,22 @@ Access to `http://<server-address>:8000/`. Now controller is ready.
 
 ## Using packages
 
-None
+[@std/fmt](https://jsr.io/@std/fmt) - Copyright (c) 2018-2022 the Deno authors.
+
+[serve-static](https://www.npmjs.com/package/serve-static) - Copyright (c) 2010 Sencha Inc., 2011 LearnBoost, 2011 TJ Holowaychuk, 2014-2016 Douglas Christopher Wilson
+
+[finalhandler](https://www.npmjs.com/package/finalhandler) - Copyright (c) 2014-2022 [Douglas Christopher Wilson](doug@somethingdoug.com)
+
+[ws](https://www.npmjs.com/package/ws) - Copyright (c) 2011 [Einar Otto Stangvik](mailto:einaros@gmail.com), 2013 Arnout Kazemier and contributors, 2016 Luigi Pinca and contributors
 
 ## License
 
-[CC0 1.0](./LICENSE)
+Web DMX - [CC0-1.0](./LICENSE)
+
+@std/fmt - [MIT License](https://github.com/denoland/std/blob/main/LICENSE)
+
+serve-static - [MIT License](https://github.com/expressjs/serve-static/blob/HEAD/LICENSE)
+
+finalhandler - [MIT License](https://github.com/pillarjs/finalhandler/blob/master/LICENSE)
+
+ws - [MIT License](https://github.com/websockets/ws/blob/master/LICENSE)
