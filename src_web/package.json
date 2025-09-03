@@ -1,0 +1,30 @@
+{
+  "name": "web-dmx",
+  "version": "0.0.0",
+  "description": "DMX control on web application",
+  "main": "main.ts",
+  "scripts": {
+    "start": "npx tsx main.ts"
+  },
+  "author": "aKuad",
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aKuad/web-dmx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aKuad/web-dmx/issues"
+  },
+  "homepage": "https://github.com/aKuad/web-dmx#readme",
+  "dependencies": {
+    "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
+    "finalhandler": "^2.1.0",
+    "serve-static": "^2.2.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/finalhandler": "^1.2.4",
+    "@types/serve-static": "^1.15.8",
+    "@types/ws": "^8.18.1"
+  }
+}
