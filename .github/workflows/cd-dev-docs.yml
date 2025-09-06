@@ -21,6 +21,7 @@ jobs:
       run: |
         mkdir index-work
         mv assets/dev-docs-index.html index-work/index.html
+        mv assets/head-image.webp     index-work/
         mv src_web/favicon.ico        index-work/
     - name: Upload prepared files
       uses: actions/upload-artifact@v4
