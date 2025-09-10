@@ -174,7 +174,7 @@ int main(void)
   {
     // Values request packet processing
     if(is_values_request_received()) {
-      HAL_UART_Transmit_IT(&huart1, dmx_values + 1, DMX_CHANNEL_COUNT);
+      HAL_UART_Transmit_IT(&huart2, dmx_values + 1, DMX_CHANNEL_COUNT);
       //              +1 for ignore start code ~~~
       reset_values_request_received();
     }
