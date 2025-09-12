@@ -2,6 +2,7 @@
  * DMX control on web application
  */
 
+import process from "node:process";
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
 import { yellow, green } from "@std/fmt/colors";
@@ -24,9 +25,7 @@ const ws_clients = new Set<WebSocket>();
 
 
 /* Device communication process */
-// deno-lint-ignore no-process-global
 if(process.argv[2]) {
-  // deno-lint-ignore no-process-global
   console.log(green(`Connecting to '${process.argv[2]}'`));
   console.log(yellow("Now in under construction - device communication is unimplemented"));
   // const device = new SerialPort({ path: process.argv[2], baudRate: 115200, autoOpen: true });

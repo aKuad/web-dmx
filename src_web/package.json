@@ -19,6 +19,7 @@
   "dependencies": {
     "@std/fmt": "npm:@jsr/std__fmt@^1.0.8",
     "finalhandler": "^2.1.0",
+    "serialport": "^13.0.0",
     "serve-static": "^2.2.0",
     "ws": "^8.18.3"
   },
