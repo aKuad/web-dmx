@@ -23,6 +23,10 @@ jobs:
       with:
         deno-version: v2.x
         cache: true
+    - name: Remove Node.js package info
+      run: |
+        # Node.js package info makes 'no-import-prefix' error on Deno lint
+        rm package.json package-lock.json
     - name: Lint all js/ts files
       run: deno lint
 
