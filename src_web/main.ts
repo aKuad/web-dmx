@@ -7,11 +7,10 @@ import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
 import { yellow, green } from "@std/fmt/colors";
 
+import { SerialPort } from "serialport";
 import serveStatic from "serve-static";
 import finalhandler from "finalhandler";
 import { WebSocketServer } from "ws";
-
-// import { SerialPort } from "npm:serialport@12";
 
 import { ws_broadcast } from "./modules/ws_broadcast.ts";
 import { DMX_CHANNEL_COUNT, encode_lanes_initialize_packet } from "./static/packet/lanes_initialize.js";
@@ -34,6 +33,11 @@ if(process.argv[2]) {
   console.log(yellow("Serial device unspecified, runs without device."));
   console.log(yellow("To run with device:"));
   console.log(yellow("  npm start <device path or COM port name>"));
+  console.log(yellow(""));
+  console.log(yellow("Detected devices:"));
+  const devices     = await SerialPort.list();
+  const devices_str = devices.map(e => `${e.path} - ${e.manufacturer || "Unknown manufacturer"}`);
+  devices_str.forEach(e => console.log(yellow("  " + e)));
 }
 
 
