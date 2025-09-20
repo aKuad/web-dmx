@@ -42,6 +42,7 @@ export class DMXDeviceMock extends SerialPortMock {
     if((chunk[0] & chunk[1] & chunk[2]) === 0xff) {
       process.stdout.write(`DMXDeviceMock - Values request \r`);
       this.port?.emitData(Buffer.from(this.#dmx_values));
+      return super.write(chunk);
     }
 
     // Lane modify packet processing
@@ -54,7 +55,6 @@ export class DMXDeviceMock extends SerialPortMock {
       process.stdout.write(`DMXDeviceMock - ch:${channel_str} val:${value_str} \r`);
     else
       process.stdout.write(`DMXDeviceMock - Invalid channel\r`);
-
 
     return super.write(chunk);
   }

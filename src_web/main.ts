@@ -13,6 +13,7 @@ import finalhandler from "finalhandler";
 import { WebSocketServer } from "ws";
 
 import { ws_broadcast } from "./modules/ws_broadcast.ts";
+import { DMXDeviceMock } from "./modules/DMXDeviceMock.ts";
 import { DMX_CHANNEL_COUNT, encode_lanes_initialize_packet } from "./static/packet/lanes_initialize.js";
 import { decode_lane_modify_packet, is_lane_modify_packet } from "./static/packet/lane_modify.js";
 
@@ -24,11 +25,12 @@ const ws_clients = new Set<WebSocket>();
 
 
 /* Device communication process */
-if(process.argv[2]) {
-  console.log(green(`Connecting to '${process.argv[2]}'`));
-  console.log(yellow("Now in under construction - device communication is unimplemented"));
-  // const device = new SerialPort({ path: process.argv[2], baudRate: 115200, autoOpen: true });
+// Preparing
+const device_path       = process.argv[2];
+const is_device_connect = Boolean(device_path);
 
+if(is_device_connect) {
+  console.log(green(`Connecting to '${device_path}'`));
 } else {
   console.log(yellow("Serial device unspecified, runs without device."));
   console.log(yellow("To run with device:"));
@@ -39,6 +41,15 @@ if(process.argv[2]) {
   const devices_str = devices.map(e => `${e.path} - ${e.manufacturer || "Unknown manufacturer"}`);
   devices_str.forEach(e => console.log(yellow("  " + e)));
 }
+
+// Device connecting
+DMXDeviceMock.binding.createPort("/dev/mock");
+const device = is_device_connect ? new SerialPort   ({ path: device_path, baudRate: 115200, autoOpen: false })
+                                 : new DMXDeviceMock({ path: "/dev/mock", baudRate: 115200, autoOpen: false });
+
+device.open(() => {
+  device.write([0xff, 0xff, 0xff]);
+});
 
 
 /* HTTP server process */
