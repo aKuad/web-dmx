@@ -26,6 +26,13 @@ export class DMXDeviceMock extends SerialPortMock {
   constructor(options: SerialPortMockOpenOptions) {
     super(options);
     this.#dmx_values = new Uint8Array(DMX_CHANNEL_COUNT);
+
+    //// Non 0 internal values memory initializing - For values request test
+    // this.#dmx_values[0] = 0;
+    // this.#dmx_values[1] = 10;
+    // this.#dmx_values[2] = 100;
+    // this.#dmx_values[3] = 255;
+    ////
   }
 
   /**

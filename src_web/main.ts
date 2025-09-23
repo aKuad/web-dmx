@@ -20,7 +20,9 @@ import { decode_lane_modify_packet, is_lane_modify_packet } from "./static/packe
 
 const server_static = serveStatic("static");
 const server_pages  = serveStatic("pages", { index: ["index.html"] });
-const dmx_values = new Uint8Array(DMX_CHANNEL_COUNT);
+const dmx_values_fetch_buf: number[] = [];
+const dmx_values_server = new Uint8Array(DMX_CHANNEL_COUNT);
+const dmx_values_device = new Uint8Array(DMX_CHANNEL_COUNT);
 const ws_clients = new Set<WebSocket>();
 
 
@@ -47,8 +49,20 @@ DMXDeviceMock.binding.createPort("/dev/mock");
 const device = is_device_connect ? new SerialPort   ({ path: device_path, baudRate: 115200, autoOpen: false })
                                  : new DMXDeviceMock({ path: "/dev/mock", baudRate: 115200, autoOpen: false });
 
+// Current values fetching from device on init
 device.open(() => {
   device.write([0xff, 0xff, 0xff]);
+});
+device.on("data", data => {
+  if(dmx_values_fetch_buf.length < DMX_CHANNEL_COUNT)
+    dmx_values_fetch_buf.push(...new Uint8Array(data));
+
+  if(dmx_values_fetch_buf.length === DMX_CHANNEL_COUNT) {
+    dmx_values_fetch_buf.forEach((value, index) => {
+      dmx_values_server[index] = value;
+      dmx_values_device[index] = value;
+    })
+  }
 });
 
 
@@ -91,7 +105,7 @@ wss.on("connection", (socket: WebSocket) => {
   socket.binaryType = "arraybuffer";
 
   // On a client connected
-  socket.send(encode_lanes_initialize_packet(dmx_values));
+  socket.send(encode_lanes_initialize_packet(dmx_values_server));
   ws_clients.add(socket);
 
   socket.addEventListener("message", e => {
@@ -99,7 +113,7 @@ wss.on("connection", (socket: WebSocket) => {
     if(is_lane_modify_packet(e.data)) {
       ws_broadcast(ws_clients, e.data, socket);
       const { channel, value } = decode_lane_modify_packet(e.data);
-      dmx_values[channel-1] = value;
+      dmx_values_server[channel-1] = value;
     }
   });
 
