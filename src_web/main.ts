@@ -65,6 +65,22 @@ device.on("data", data => {
   }
 });
 
+// Values applying from server buffer to device
+setInterval(() => {
+  for(let i = 0; i < DMX_CHANNEL_COUNT; i++) {
+    if(dmx_values_device[i] !== dmx_values_server[i]) {
+      dmx_values_device[i] = dmx_values_server[i];
+      const channel = i + 1;
+      device.write([channel & 0xff, (channel >> 8) & 0xff, dmx_values_server[i]]);
+      //            ~~~~~~~~~~~ little endian ~~~~~~~~~~~
+    }
+  }
+}, 1/45 * 1000);
+// 45 [times/sec]
+// -> 1/45 [sec] -> *1000 [msec]
+//// DMX packet sending is maximum 44.1[times/sec], so 45[times/sec] updating rate is enough
+//// This interval sending is for prevent too busy com port communication
+
 
 /* HTTP server process */
 const http_server = createServer((request, response) => {
