@@ -41,6 +41,14 @@ jobs:
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
+    - name: Set up node
+      uses: actions/setup-node@v5
+      with:
+        node-version: 20
+    - name: Install node packages
+      run: |
+        cd ../../
+        npm ci
     - name: Set up Deno
       uses: denoland/setup-deno@v2
       with:
