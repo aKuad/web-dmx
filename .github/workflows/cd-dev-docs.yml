@@ -11,23 +11,22 @@ on:
 
 jobs:
   # Prepare index page
-  prepare-index:
+  build-index:
     runs-on: ubuntu-latest
 
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
-    - name: Rename file to index.html
-      run: |
-        mkdir index-work
-        mv assets/dev-docs-index.html index-work/index.html
-        mv assets/head-image.webp     index-work/
-        mv src_web/favicon.ico        index-work/
+    - name: Build index page
+      uses: actions/jekyll-build-pages@v1
+      with:
+        source: docs
+        destination: _site
     - name: Upload prepared files
       uses: actions/upload-artifact@v4
       with:
-        name: prepare-index
-        path: index-work/
+        name: build-index
+        path: _site
         retention-days: 1
 
 
@@ -132,13 +131,13 @@ jobs:
   # GitHub Pages artifact prepare
   prepare-pages-artifact:
     runs-on: ubuntu-latest
-    needs: [prepare-index, prepare-ui-demo, build-fw-api, build-webapp-api, build-webapp-coverage]
+    needs: [build-index, prepare-ui-demo, build-fw-api, build-webapp-api, build-webapp-coverage]
 
     steps:
     - name: Place index
       uses: actions/download-artifact@v4
       with:
-        name: prepare-index
+        name: build-index
         path: .
     - name: Place ui-demo
       uses: actions/download-artifact@v4
