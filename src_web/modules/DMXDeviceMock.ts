@@ -58,8 +58,10 @@ export class DMXDeviceMock extends SerialPortMock {
     const channel_str = channel.toString().padStart(3, " ");
     const value_str = value.toString().padStart(3, " ");
 
-    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX)
+    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
       process.stdout.write(`DMXDeviceMock - ch:${channel_str} val:${value_str} \r`);
+      this.#dmx_values[channel] = value;
+    }
     else
       process.stdout.write(`DMXDeviceMock - Invalid channel\r`);
 
