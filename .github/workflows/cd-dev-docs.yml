@@ -116,7 +116,7 @@ jobs:
       with:
         deno-version: v2.x
     - name: Run all tests
-      run: deno test --parallel --coverage
+      run: deno test --allow-env --allow-read --allow-ffi --parallel --coverage
     - name: Export coverage report as HTML
       if: always()
       run: deno coverage --html
