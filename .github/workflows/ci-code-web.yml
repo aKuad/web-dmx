@@ -41,19 +41,13 @@ jobs:
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
-    - name: Set up node
-      uses: actions/setup-node@v5
-      with:
-        node-version: 20
-    - name: Install node packages
-      run: |
-        cd ../../
-        npm ci
     - name: Set up Deno
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
         cache: true
+    - name: Install node packages
+      run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Run all unit tests
       run: deno test --allow-env --allow-read --allow-ffi --parallel --coverage
     - name: Report coverage as actions summary
