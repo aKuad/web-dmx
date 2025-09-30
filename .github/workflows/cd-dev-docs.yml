@@ -115,6 +115,8 @@ jobs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+    - name: Install node packages
+      run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Run all tests
       run: deno test --allow-env --allow-read --allow-ffi --parallel --coverage
     - name: Export coverage report as HTML
