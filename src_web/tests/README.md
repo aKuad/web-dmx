@@ -5,17 +5,20 @@
 ### JavaScript automated tests
 
 ```sh
+# Packages installing (only at first)
+deno install --allow-scripts=npm:@serialport/bindings-cpp
+
 # Set current directory
 cd denotest
 
 # Run tests
-deno test
+deno test --allow-env --allow-read --allow-ffi
 
 # For parallel run
-deno test --parallel
+deno test --allow-env --allow-read --allow-ffi --parallel
 
 # For report coverage
-deno test --coverage
+deno test --allow-env --allow-read --allow-ffi --coverage
 ```
 
 ### JavaScript manual tests
@@ -42,10 +45,10 @@ As standard, follow [Coding conventions](../../CONTRIBUTING.md#coding-convention
 
 ### Files place & naming convention
 
-| Item                                             | convention               |
-| ------------------------------------------------ | ------------------------ |
-| Automated unit test                              | `*.test.js` (also `.ts`) |
-| Manual unit test                                 | `*.try.html`             |
+| Item                | convention               |
+| ------------------- | ------------------------ |
+| Automated unit test | `*.test.js` (also `.ts`) |
+| Manual unit test    | `*.try.html`             |
 
 > [!NOTE]
 >
