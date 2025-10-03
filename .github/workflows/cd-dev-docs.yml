@@ -89,6 +89,7 @@ jobs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+        cache: true
     - name: Generate WebApp api document
       run: |
         deno doc --html --name="Web DMX" --private static/*/*.js
@@ -115,6 +116,7 @@ jobs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+        cache: true
     - name: Install node packages
       run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Run all tests
