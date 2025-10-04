@@ -4,15 +4,11 @@ DMX control on web application
 
 ![GitHub Release](https://img.shields.io/github/v/release/aKuad/web-dmx)
 
-[UI demo is available.](https://akuad.github.io/web-dmx/ui-demo/)
+[UI demo is available.](https://akuad.github.io/web-dmx/ui-demo/) \| [Usage is here.](https://akuad.github.io/web-dmx/usage/)
 
 [Develop documentation is here.](https://akuad.github.io/web-dmx/)
 
 ![Head image](./assets/head-image.gif)
-
-## Usage
-
-Work in progress
 
 ## Deployment
 

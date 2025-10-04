@@ -6,6 +6,10 @@
 
 Try client UI
 
+## [Usage](usage)
+
+Client UI guide
+
 ## [Firmware api documentation](fw-api)
 
 Firmware functions document by Doxygen
