@@ -30,3 +30,5 @@ You'd like to try it? [UI demo is available.](https://akuad.github.io/web-dmx/ui
 You can write custom text above each faders.
 
 ![User label](./user-label.webp)
+
+Note: Labels won't be synchronized with other devices. The view applies only own device.
