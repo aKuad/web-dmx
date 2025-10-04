@@ -41,6 +41,8 @@ export class DMXDeviceMock extends SerialPortMock {
    * SerialPort.write(chunk) actual declaration of `chunk` is `any` but it violates deno lint.
    * On this mock, consider only for using `Array` as data input.
    *
+   * Note: It considers only for 3bytes data. `chunk` must be 3 length.
+   *
    * @param chunk Data to emulate sending
    * @returns `false` if the stream wishes for the calling code to wait for the `'drain'` event to be emitted before continuing to write additional data; otherwise `true`.
    */
