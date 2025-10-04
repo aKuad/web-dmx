@@ -88,9 +88,12 @@ jobs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+        cache: true
+    - name: Install node packages
+      run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Generate WebApp api document
       run: |
-        deno doc --html --name="Web DMX" --private static/*/*.js
+        deno doc --html --name="Web DMX" --private modules/**.ts static/*/**.js
         cp -f docs/all_symbols.html docs/index.html
     - name: Upload generated docs
       uses: actions/upload-artifact@v4
@@ -114,8 +117,11 @@ jobs:
       uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
+        cache: true
+    - name: Install node packages
+      run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Run all tests
-      run: deno test --parallel --coverage
+      run: deno test --allow-env --allow-read --allow-ffi --parallel --coverage
     - name: Export coverage report as HTML
       if: always()
       run: deno coverage --html
