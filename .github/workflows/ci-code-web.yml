@@ -46,8 +46,10 @@ jobs:
       with:
         deno-version: v2.x
         cache: true
+    - name: Install node packages
+      run: deno install --allow-scripts=npm:@serialport/bindings-cpp
     - name: Run all unit tests
-      run: deno test --parallel --coverage
+      run: deno test --allow-env --allow-read --allow-ffi --parallel --coverage
     - name: Report coverage as actions summary
       env:
         NO_COLOR: "true"  # Disable deno color output

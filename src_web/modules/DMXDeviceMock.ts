@@ -41,6 +41,8 @@ export class DMXDeviceMock extends SerialPortMock {
    * SerialPort.write(chunk) actual declaration of `chunk` is `any` but it violates deno lint.
    * On this mock, consider only for using `Array` as data input.
    *
+   * Note: It considers only for 3bytes data. `chunk` must be 3 length.
+   *
    * @param chunk Data to emulate sending
    * @returns `false` if the stream wishes for the calling code to wait for the `'drain'` event to be emitted before continuing to write additional data; otherwise `true`.
    */
@@ -58,8 +60,10 @@ export class DMXDeviceMock extends SerialPortMock {
     const channel_str = channel.toString().padStart(3, " ");
     const value_str = value.toString().padStart(3, " ");
 
-    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX)
+    if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
       process.stdout.write(`DMXDeviceMock - ch:${channel_str} val:${value_str} \r`);
+      this.#dmx_values[channel] = value;
+    }
     else
       process.stdout.write(`DMXDeviceMock - Invalid channel\r`);
 
