@@ -58,7 +58,7 @@ Access to `http://<server-address>:8000/`. Now controller is ready.
 
 [serve-static](https://www.npmjs.com/package/serve-static) - Copyright (c) 2010 Sencha Inc., 2011 LearnBoost, 2011 TJ Holowaychuk, 2014-2016 Douglas Christopher Wilson
 
-[finalhandler](https://www.npmjs.com/package/finalhandler) - Copyright (c) 2014-2022 [Douglas Christopher Wilson](doug@somethingdoug.com)
+[finalhandler](https://www.npmjs.com/package/finalhandler) - Copyright (c) 2014-2022 [Douglas Christopher Wilson](mailto:doug@somethingdoug.com)
 
 [ws](https://www.npmjs.com/package/ws) - Copyright (c) 2011 [Einar Otto Stangvik](mailto:einaros@gmail.com), 2013 Arnout Kazemier and contributors, 2016 Luigi Pinca and contributors
 
