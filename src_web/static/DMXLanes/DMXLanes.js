@@ -178,4 +178,38 @@ export class DMXLanes extends EventTarget {
     slider.value    = value;
     value_box.value = value;
   }
+
+
+  /**
+   * Store user labels to passed key
+   *
+   * @param {string} store_key Key of labels to store
+   */
+  store_user_labels(store_key) {
+    const user_label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    const user_labels = user_label_elements.map(e => e.innerText);
+    const user_labels_json = JSON.stringify(user_labels);
+
+    if(user_labels.filter(label => label).length === 0) // If no labels wrote
+      localStorage.removeItem(store_key);
+
+    localStorage.setItem(store_key, user_labels_json);
+  }
+
+
+  /**
+   * Restore user labels from passed key
+   *
+   * @param {string} store_key Key of labels to restore
+   */
+  restore_user_labels(store_key) {
+    const user_labels_json = localStorage.getItem(store_key);
+    if(!user_labels_json) return;  // If the data not found, do noting
+
+    const user_labels = JSON.parse(user_labels_json);
+    const user_label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    user_label_elements.forEach((e, i) => {
+      e.innerText = user_labels[i];
+    });
+  }
 }

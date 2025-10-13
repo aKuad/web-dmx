@@ -36,11 +36,24 @@
         });
 
         document.getElementById("button-ch0-set-0").addEventListener("click", () => try_ch0_set_0(dmx_lanes));
+        document.getElementById("button-labels-store").addEventListener("click", () => try_labels_store(dmx_lanes));
+        document.getElementById("button-labels-restore").addEventListener("click", () => try_labels_restore(dmx_lanes));
         document.getElementById("button-error-check").addEventListener("click", () => try_error_check(dmx_lanes));
       });
 
       function try_ch0_set_0(dmx_lanes) {
+        console.log("-- CHECK - Is all values are set to 0?");
         dmx_lanes.set_value(1, 0);
+      }
+
+      function try_labels_store(dmx_lanes) {
+        console.log("-- INFO - For next, modify any user label then click 'User labels restore'");
+        dmx_lanes.store_user_labels("labels-test-key");
+      }
+
+      function try_labels_restore(dmx_lanes) {
+        console.log("-- CHECK - Is all user labels are restored?");
+        dmx_lanes.restore_user_labels("labels-test-key");
       }
 
       function try_error_check(dmx_lanes) {
@@ -63,6 +76,7 @@
 
   <body>
     <p><button id="button-ch0-set-0">Set ch0 value 0</button></p>
+    <p><button id="button-labels-store">User labels store</button><button id="button-labels-restore">User labels restore</button></p>
     <p><button id="button-error-check">Run set_value error check</button></p>
     <div id="lanes-view"></div>
   </body>
