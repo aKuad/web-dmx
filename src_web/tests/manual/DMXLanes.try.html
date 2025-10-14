@@ -48,12 +48,15 @@
 
       function try_labels_store(dmx_lanes) {
         console.log("-- INFO - For next, modify any user label then click 'User labels restore'");
-        dmx_lanes.store_user_labels("labels-test-key");
+        const user_labels_json = dmx_lanes.user_labels_json;
+        localStorage.setItem("labels-store-test", user_labels_json);
       }
 
       function try_labels_restore(dmx_lanes) {
-        console.log("-- CHECK - Is all user labels are restored?");
-        dmx_lanes.restore_user_labels("labels-test-key");
+        console.log("-- CHECK - Are all user labels are restored?");
+        const user_labels_json = localStorage.getItem("labels-store-test");
+        if(user_labels_json)
+          dmx_lanes.user_labels_json = user_labels_json;
       }
 
       function try_error_check(dmx_lanes) {

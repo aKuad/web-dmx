@@ -181,35 +181,28 @@ export class DMXLanes extends EventTarget {
 
 
   /**
-   * Store user labels to passed key
+   * Set user labels
    *
-   * @param {string} store_key Key of labels to store
+   * @param {string[]} labels Labels to set
    */
-  store_user_labels(store_key) {
-    const user_label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
-    const user_labels = user_label_elements.map(e => e.innerText);
-    const user_labels_json = JSON.stringify(user_labels);
-
-    if(user_labels.filter(label => label).length === 0) // If no labels wrote
-      localStorage.removeItem(store_key);
-
-    localStorage.setItem(store_key, user_labels_json);
+  set user_labels_json(labels_json) {
+    const labels = JSON.parse(labels_json);
+    const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    label_elements.forEach((e, i) => {
+      e.innerText = labels[i];
+    });
   }
 
 
   /**
-   * Restore user labels from passed key
+   * Get user labels
    *
-   * @param {string} store_key Key of labels to restore
+   * @returns {string[]} Current labels on the lanes
    */
-  restore_user_labels(store_key) {
-    const user_labels_json = localStorage.getItem(store_key);
-    if(!user_labels_json) return;  // If the data not found, do noting
-
-    const user_labels = JSON.parse(user_labels_json);
-    const user_label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
-    user_label_elements.forEach((e, i) => {
-      e.innerText = user_labels[i];
-    });
+  get user_labels_json() {
+    const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    const labels = label_elements.map(e => e.innerText);
+    const labels_json = JSON.stringify(labels);
+    return labels_json;
   }
 }
