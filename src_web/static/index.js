@@ -23,7 +23,7 @@ globalThis.addEventListener("load", () => {
   // Auto store of user labels
   globalThis.addEventListener("beforeunload", () => {
     localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
-  })
+  });
 
 
   // UI control process
