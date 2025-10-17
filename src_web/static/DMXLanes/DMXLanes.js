@@ -178,4 +178,31 @@ export class DMXLanes extends EventTarget {
     slider.value    = value;
     value_box.value = value;
   }
+
+
+  /**
+   * Set user labels
+   *
+   * @param {string[]} labels Labels to set
+   */
+  set user_labels_json(labels_json) {
+    const labels = JSON.parse(labels_json);
+    const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    label_elements.forEach((e, i) => {
+      e.innerText = labels[i];
+    });
+  }
+
+
+  /**
+   * Get user labels
+   *
+   * @returns {string[]} Current labels on the lanes
+   */
+  get user_labels_json() {
+    const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
+    const labels = label_elements.map(e => e.innerText);
+    const labels_json = JSON.stringify(labels);
+    return labels_json;
+  }
 }

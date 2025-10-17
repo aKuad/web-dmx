@@ -22,7 +22,16 @@
       import { DMXLanes } from "./DMXLanes/DMXLanes.js";
 
       globalThis.addEventListener("load", () => {
-        new DMXLanes(document.getElementById("dmx-lanes-container"));
+        const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
+
+        // Auto store/restore of user labels
+        const USER_LABELS_STORAGE_KEY = "user-labels-auto-save-demo";
+        if(localStorage.getItem(USER_LABELS_STORAGE_KEY))
+          dmx_lanes.user_labels_json = localStorage.getItem(USER_LABELS_STORAGE_KEY);
+
+        globalThis.addEventListener("beforeunload", () => {
+          localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
+        });
       });
     </script>
     <title>Web DMX - UI demo</title>
