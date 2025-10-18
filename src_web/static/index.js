@@ -12,6 +12,18 @@ globalThis.addEventListener("load", () => {
   const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
   const ws = new WebSocket("/api/controller");
   ws.binaryType = "arraybuffer";
+  const USER_LABELS_STORAGE_KEY = "user-labels-auto-save";
+
+
+  // Auto restore of user labels
+  if(localStorage.getItem(USER_LABELS_STORAGE_KEY))
+    dmx_lanes.user_labels_json = localStorage.getItem(USER_LABELS_STORAGE_KEY);
+
+
+  // Auto store of user labels
+  globalThis.addEventListener("beforeunload", () => {
+    localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
+  });
 
 
   // UI control process
