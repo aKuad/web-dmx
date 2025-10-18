@@ -16,6 +16,10 @@ Cursor key control:
 
 - left/right key
   - Change current channel (current channel is red background)
+- left/right key with holding:
+  - Shift: 5 channel/step
+  - Ctrl: 20 channel/step
+  - Alt: 50 channel/step
 - up/down key
   - Current channel value increase/decrease
 - up/down key with holding:

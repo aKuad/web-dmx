@@ -105,15 +105,32 @@ export class DMXLanes extends EventTarget {
         const active_slider_index = this.#slider_elements.indexOf(document.activeElement);
         if(active_slider_index === -1) return;  // When no sliders are active, do nothing
 
-        if(e.code === "ArrowRight") {
-          e.preventDefault();
-          if(active_slider_index === 511) return;  // When right end channel (ch 512) is active, do nothing
-          this.#slider_elements[active_slider_index + 1].focus();
-        } else if(e.code === "ArrowLeft") {
-          e.preventDefault();
-          if(active_slider_index === 0) return;  // When left end channel (ch 1) is active, do nothing
-          this.#slider_elements[active_slider_index - 1].focus();
-        }
+        let new_index = active_slider_index;
+        if     (e.code == "ArrowRight" && e.altKey)
+          new_index += 50;
+        else if(e.code == "ArrowLeft"  && e.altKey)
+          new_index -= 50;
+        else if(e.code == "ArrowRight" && e.ctrlKey)
+          new_index += 20;
+        else if(e.code == "ArrowLeft"  && e.ctrlKey)
+          new_index -= 20;
+        else if(e.code == "ArrowRight" && e.shiftKey)
+          new_index += 5;
+        else if(e.code == "ArrowLeft"  && e.shiftKey)
+          new_index -= 5;
+        else if(e.code == "ArrowRight")
+          new_index += 1;
+        else if(e.code == "ArrowLeft")
+          new_index -= 1;
+
+        if(new_index < 0)
+          new_index = 0;
+        else if(new_index > 511)
+          new_index = 511;
+
+        e.preventDefault();
+        this.#slider_elements[new_index].focus();
+
         return;
       }
 
