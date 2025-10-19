@@ -13,7 +13,7 @@ body {
 }
 
 
-/* Main contents */
+/* Header */
 header {
   margin: 0;
   padding: 0.2em 0.5em;
@@ -33,6 +33,8 @@ header {
   margin-right: 0.3em;
 }
 
+
+/* Controller */
 #dmx-lanes-scroller {
   margin: 0;
   padding: 3rem 2rem;
@@ -46,6 +48,44 @@ header {
   border-radius: 1rem;
 }
 
+
+/* User labels import/export buttons */
+#labels-control-field {
+  font-size: 1.5em;
+  margin: 2rem;
+  padding: 0;
+}
+
+#button-labels-import, #button-labels-export {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+
+  border: 2px solid #fff;
+  border-radius: 0.2em;
+  background-color: hsl(0, 0%, 20%);
+  outline: none;
+
+  font: inherit;
+  font-size: inherit;
+  color: #fff;
+  margin: 0 0 0 0.5em;
+  padding: 0.2em 0.5em;
+  box-sizing: content-box;
+}
+
+#button-labels-import-input {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+
+/* Error view */
 #error-view {
   color: hsl(0, 100%, 70%);
   text-align: center;
