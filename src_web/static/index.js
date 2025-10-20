@@ -3,6 +3,7 @@
  */
 
 import { DMXLanes } from "/static/DMXLanes/DMXLanes.js";
+import { export_as_download } from "/static/export_as_download.js";
 import { decode_lanes_initialize_packet, is_lanes_initialize_packet } from "/static/packet/lanes_initialize.js";
 import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_packet } from "/static/packet/lane_modify.js";
 
@@ -15,14 +16,22 @@ globalThis.addEventListener("load", () => {
   const USER_LABELS_STORAGE_KEY = "user-labels-auto-save";
 
 
-  // Auto restore of user labels
+  // User labels auto restore
+  //// Restoring
   if(localStorage.getItem(USER_LABELS_STORAGE_KEY))
     dmx_lanes.user_labels_json = localStorage.getItem(USER_LABELS_STORAGE_KEY);
-
-
-  // Auto store of user labels
+  //// Storing
   globalThis.addEventListener("beforeunload", () => {
     localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
+  });
+
+
+  // User labels import/export
+  //// Exporting
+  document.getElementById("button-labels-export").addEventListener("click", () => {
+    const output_file = new Blob([dmx_lanes.user_labels_json], { type: "application/json" });
+    const file_name = `WebDMX-${ new Date().toISOString()}.json`;
+    export_as_download(output_file, file_name);
   });
 
 
