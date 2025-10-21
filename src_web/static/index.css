@@ -60,6 +60,8 @@ header {
   position: relative;
   cursor: pointer;
   display: inline-block;
+  opacity: 1;
+  transition: opacity linear 0.2s;
 
   border: 2px solid #fff;
   border-radius: 0.2em;
@@ -70,8 +72,21 @@ header {
   font-size: inherit;
   color: #fff;
   margin: 0 0 0 0.5em;
-  padding: 0.2em 0.5em;
+  padding: 0.2em 0.5em 0.2em calc(0.5em + 1.2em + 0.4em);
   box-sizing: content-box;
+
+  background-position: 0.5em;
+  background-repeat: no-repeat;
+  background-size: 1.2em;
+}
+#button-labels-import:hover, #button-labels-export:hover {
+  opacity: 0.5;
+}
+#button-labels-import {
+  background-image: url(./icons/import.svg);
+}
+#button-labels-export {
+  background-image: url(./icons/export.svg);
 }
 
 #button-labels-import-input {
