@@ -201,9 +201,15 @@ export class DMXLanes extends EventTarget {
    * Set user labels
    *
    * @param {string[]} labels Labels to set
+   *
+   * @throws {SyntaxError} When `labels` is invalid format for JSON
+   * @throws {Error} When `labels` is invalid format for user labels
    */
   set user_labels_json(labels_json) {
-    const labels = JSON.parse(labels_json);
+    const labels = JSON.parse(labels_json); // When non JSON passed, it throws
+    if(labels.length !== 512)
+      throw new Error("Invalid format as user labels data");
+
     const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
     label_elements.forEach((e, i) => {
       e.innerText = labels[i];

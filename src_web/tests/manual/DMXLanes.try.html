@@ -27,6 +27,8 @@
        *   - Can get/set user labels
        *   - Thrown RangeError if `channel` not in 1~512 at `DMXLanes.set_value()`
        *   - Thrown RangeError if `value` not in 0~255 at `DMXLanes.set_value()`
+       *   - Throw error if non JSON string passed to `user_labels_json`
+       *   - Throw error if invalid format string passed to `user_labels_json`
        */
       import { DMXLanes } from "/static/DMXLanes/DMXLanes.js";
       import { assertThrows_ecma } from "/test-util/assertThrows_ecma.js";
@@ -68,6 +70,9 @@
         assertThrows_ecma(() => dmx_lanes.set_value(513,   0), RangeError, "channel must be in 1~512, but got 513");
         assertThrows_ecma(() => dmx_lanes.set_value(  1,  -1), RangeError, "value must be in 0~255, but got -1");
         assertThrows_ecma(() => dmx_lanes.set_value(  1, 256), RangeError, "value must be in 0~255, but got 256");
+
+        assertThrows_ecma(() => dmx_lanes.user_labels_json = ""  , SyntaxError, "");  // JSON parse error message is different between browsers
+        assertThrows_ecma(() => dmx_lanes.user_labels_json = "{}", Error      , "Invalid format as user labels data");
       }
     </script>
     <style>
@@ -84,7 +89,7 @@
   <body>
     <p><button id="button-ch0-set-0">Set ch0 value 0</button></p>
     <p><button id="button-labels-store">User labels store</button><button id="button-labels-restore">User labels restore</button></p>
-    <p><button id="button-error-check">Run set_value error check</button></p>
+    <p><button id="button-error-check">Run error check</button></p>
     <div id="lanes-view"></div>
   </body>
 </html>
