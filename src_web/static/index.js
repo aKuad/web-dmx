@@ -27,10 +27,23 @@ globalThis.addEventListener("load", () => {
 
 
   // User labels import/export
+  //// Importing
+  document.getElementById("button-labels-import-input").addEventListener("input", e => {
+    const file = e.target.files[0];
+    if(file) {
+      file.text()
+      .then(text => dmx_lanes.user_labels_json = text)
+      .catch(error => alert(`Failed to load the file:\n${error.message}`));
+    }
+
+    // For reset file input
+    e.target.type = "text";
+    e.target.type = "file";
+  });
   //// Exporting
   document.getElementById("button-labels-export").addEventListener("click", () => {
     const output_file = new Blob([dmx_lanes.user_labels_json], { type: "application/json" });
-    const file_name = `WebDMX-${ new Date().toISOString()}.json`;
+    const file_name = `WebDMX-${ new Date().toISOString()}.webdmx.json`;
     export_as_download(output_file, file_name);
   });
 
