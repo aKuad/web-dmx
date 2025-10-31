@@ -11,7 +11,8 @@ import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_pa
 globalThis.addEventListener("load", () => {
   // Variables
   const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
-  const ws = new WebSocket("/api/controller");
+  const is_demo = location.hostname.endsWith("github.io");
+  const ws = is_demo ? new EventTarget() : new WebSocket("/api/controller");  // For demo, instantiate EventTarget alternative of WebSocket
   ws.binaryType = "arraybuffer";
   const USER_LABELS_STORAGE_KEY = "user-labels-auto-save";
 
@@ -53,7 +54,7 @@ globalThis.addEventListener("load", () => {
     const channel = Number(e.origin);
     const value = e.data;
     const packet = encode_lane_modify_packet(channel, value);
-    if(ws.readyState === ws.OPEN)
+    if(ws.readyState === WebSocket.OPEN)
       ws.send(packet);
   });
 

@@ -15,31 +15,21 @@
     <meta property="og:description" content="Web DMX client UI demo">
     <meta property="og:image" content="https://akuad.github.io/web-dmx/ui-demo/head-image.webp">
     <meta property="og:url" content="https://akuad.github.io/web-dmx/ui-demo/">
-    <link rel="stylesheet" href="./DMXLanes/DMXLanes.css">
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./static/DMXLanes/DMXLanes.css">
+    <link rel="stylesheet" href="./static/index.css">
     <link rel="icon" href="./favicon.ico">
-    <script type="module">
-      import { DMXLanes } from "./DMXLanes/DMXLanes.js";
-
-      globalThis.addEventListener("load", () => {
-        const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
-
-        // Auto store/restore of user labels
-        const USER_LABELS_STORAGE_KEY = "user-labels-auto-save-demo";
-        if(localStorage.getItem(USER_LABELS_STORAGE_KEY))
-          dmx_lanes.user_labels_json = localStorage.getItem(USER_LABELS_STORAGE_KEY);
-
-        globalThis.addEventListener("beforeunload", () => {
-          localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
-        });
-      });
-    </script>
+    <script type="module" src="./static/index.js"></script>
     <title>Web DMX - UI demo</title>
   </head>
 
   <body>
-    <header><img id="head-icon" src="./icon.svg"><div>Web DMX</div></header>
+    <header><img id="head-icon" src="./static/icon.svg"><div>Web DMX</div></header>
     <div id="dmx-lanes-scroller"><div id="dmx-lanes-container"></div></div>
+    <p id="labels-control-field">
+      User labels:
+      <label id="button-labels-import" for="button-labels-import-input">Import<input type="file" id="button-labels-import-input" accept=".webdmx.json"></label>
+      <button id="button-labels-export">Export</button>
+    </p>
     <div id="error-view">It is UI demo</div>
   </body>
 </html>
