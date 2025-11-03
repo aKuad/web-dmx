@@ -2,10 +2,10 @@
  * Index (app main) script
  */
 
-import { DMXLanes } from "/static/DMXLanes/DMXLanes.js";
-import { export_as_download } from "/static/export_as_download.js";
-import { decode_lanes_initialize_packet, is_lanes_initialize_packet } from "/static/packet/lanes_initialize.js";
-import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_packet } from "/static/packet/lane_modify.js";
+import { DMXLanes } from "./DMXLanes/DMXLanes.js";
+import { export_as_download } from "./export_as_download.js";
+import { decode_lanes_initialize_packet, is_lanes_initialize_packet } from "./packet/lanes_initialize.js";
+import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_packet } from "./packet/lane_modify.js";
 
 
 globalThis.addEventListener("load", () => {
