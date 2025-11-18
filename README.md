@@ -12,7 +12,15 @@ DMX control on web application
 
 ## Deployment
 
-### 1. Device setting up
+### 1. Device build
+
+Build the circuit:
+
+![Device schematic](./designs/device-circuit.drawio.svg)
+
+### 2. Device firmware uploading
+
+Connect MCU (NUCLEO-F303K8) on the circuit and PC with USB cable.
 
 Open `src_fw` directory by [VSCode](https://code.visualstudio.com/) with [PlatformIO extension](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide). Then set environment 'nucleo_f303k8', and upload.
 
@@ -29,7 +37,7 @@ cd src_fw/platform-io
 pio run -e nucleo_f303k8 -t upload
 ```
 
-### 2. WebApp setting up
+### 3. WebApp setting up
 
 Launch web server on [Node.js](https://nodejs.org/).
 
@@ -44,7 +52,7 @@ npm start
 npm start <device path or COM port name>
 ```
 
-### 3. Client access
+### 4. Client access
 
 Access to `http://<server-address>:8000/`. Now controller is ready.
 
