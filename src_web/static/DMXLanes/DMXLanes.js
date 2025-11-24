@@ -8,6 +8,11 @@
  */
 export class DMXLanes extends EventTarget {
   /**
+   * @type {HTMLInputElement[]}
+   */
+  #tab_radio_elements = [];
+
+  /**
    * Lane elements array
    *
    * Equals of `container_element.getElementsByClassName("DMXLanes-lane")`
@@ -38,17 +43,49 @@ export class DMXLanes extends EventTarget {
   /**
    * DMX control lanes UI
    *
-   * @param {HTMLElement} container HTML element to view UI
+   * @param {HTMLElement} tabs_container HTML element to view tab UI
+   * @param {HTMLElement} lanes_container HTML element to view lane UI
    */
-  constructor(container) {
+  constructor(tabs_container, lanes_container) {
     super();
-    container.classList.add("DMXLanes-container");
 
+    // Field separator create
+    lanes_container.classList.add("DMXLanes-lanes-field");
+    lanes_container.setAttribute("view-group", 0);  // As default, 'All' tab selected
+
+
+    // Tabs create
+    const tab_texts = ["All", "1-", "65-", "129-", "193-", "257-", "321-", "385-", "449-"];
+    for(let i = 0; i < 9; i++) {
+      const label = document.createElement("label");
+      label.classList.add("DMXLanes-tab");
+      label.htmlFor = `DMXLanes-tab-id-${i}`;
+      label.innerText = tab_texts[i];
+      tabs_container.appendChild(label);
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.style.display = "none";
+      radio.name = "DMXLanes-tabs";
+      radio.id = `DMXLanes-tab-id-${i}`;
+      if(i === 0) radio.checked = true; // As default, 'All' tab selected
+
+      radio.addEventListener("input", () => {
+        lanes_container.setAttribute("view-group", i);
+      });
+      label.appendChild(radio);
+      this.#tab_radio_elements.push(radio);
+    }
+
+
+    // Lanes create
     for(let i = 0; i < 512; i++) {
       // Elements creating
       const current_channel = (i + 1).toString();
       const lane = document.createElement("div");
       lane.classList.add("DMXLanes-lane");
+      const tab_group = Math.floor(i / 64) + 1;
+      lane.classList.add(`DMXLanes-lanes-group-${tab_group}`);
 
       const ch = document.createElement("div");
       ch.classList.add("DMXLanes-ch");
@@ -94,12 +131,20 @@ export class DMXLanes extends EventTarget {
 
       // Elements applying
       lane.append(ch, slider, value_box, user_label);
-      container.appendChild(lane);
+      lanes_container.appendChild(lane);
       this.#lane_elements.push(lane);
     }
 
+
     // Key control behavior
     globalThis.addEventListener("keydown", e => {
+      // Current tab switching
+      if(/Digit[1-9]/.test(e.code) && e.ctrlKey) {
+        e.preventDefault();
+        const select_tab_index = Number(e.code.slice(-1)) - 1;
+        this.#tab_radio_elements[select_tab_index].click();
+      }
+
       // Current lane switching
       if(["ArrowRight", "ArrowLeft"].includes(e.code)) {
         const active_slider_index = this.#slider_elements.indexOf(document.activeElement);

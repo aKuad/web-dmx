@@ -10,7 +10,7 @@ import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_pa
 
 globalThis.addEventListener("load", () => {
   // Variables
-  const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
+  const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-tabs-container"), document.getElementById("dmx-lanes-lanes-container"));
   const is_demo = location.hostname.endsWith("github.io");
   const ws = is_demo ? new EventTarget() : new WebSocket("/api/controller");  // For demo, instantiate EventTarget alternative of WebSocket
   ws.binaryType = "arraybuffer";

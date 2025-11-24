@@ -35,13 +35,18 @@ header {
 
 
 /* Controller */
+#dmx-lanes-tabs-container {
+  margin-top: 3rem;
+  margin-left: 4rem;
+}
+
 #dmx-lanes-scroller {
-  margin: 0;
-  padding: 3rem 2rem;
+  margin: 0 0 3rem 0;
+  padding: 0 2rem;
   overflow-x: scroll;
 }
 
-#dmx-lanes-container {
+#dmx-lanes-lanes-container {
   width: fit-content;
   overflow-x: hidden;
   border: solid 1px #000;
