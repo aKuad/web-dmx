@@ -8,6 +8,8 @@
  */
 export class DMXLanes extends EventTarget {
   /**
+   * Tab select control radio button elements array
+   *
    * @type {HTMLInputElement[]}
    */
   #tab_radio_elements = [];
