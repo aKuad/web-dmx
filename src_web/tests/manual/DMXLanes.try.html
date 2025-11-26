@@ -15,6 +15,7 @@
        *   5. Check display view or console
        *
        * Test cases:
+       *   - Can display tabs and faders UI
        *   - Can dispatch event when any lane value changed (slider or value box) with channel and value
        *   - Can switch current lane +-  1 step  by up/down arrow key input
        *   - Can switch current lane +-  5 steps by up/down arrow key input with Shift key holding
@@ -80,8 +81,12 @@
         font-family: sans-serif;
         font-size: 20px;
       }
+      #tabs-view {
+        border-top: 1px solid #000;
+      }
       #lanes-view {
         border: 2px solid #000;
+        overflow-x: scroll;
       }
     </style>
   </head>
@@ -90,7 +95,7 @@
     <p><button id="button-ch0-set-0">Set ch0 value 0</button></p>
     <p><button id="button-labels-store">User labels store</button><button id="button-labels-restore">User labels restore</button></p>
     <p><button id="button-error-check">Run error check</button></p>
-    <div id="tabs-view"></div>
+    <div><span id="tabs-view"></span></div>
     <div id="lanes-view"></div>
   </body>
 </html>

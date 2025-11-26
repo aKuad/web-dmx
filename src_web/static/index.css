@@ -38,11 +38,12 @@ header {
 #dmx-lanes-tabs-container {
   margin-top: 3rem;
   margin-left: 4rem;
+  border-top: solid 1px #000;
 }
 
 #dmx-lanes-scroller {
   margin: 0 0 3rem 0;
-  padding: 0 2rem;
+  padding: 0 2rem 2rem 2rem;
   overflow-x: scroll;
 }
 

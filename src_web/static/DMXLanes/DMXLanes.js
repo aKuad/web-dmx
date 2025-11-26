@@ -52,6 +52,7 @@ export class DMXLanes extends EventTarget {
     super();
 
     // Field separator create
+    tabs_container.classList.add("DMXLanes-tabs-field");
     lanes_container.classList.add("DMXLanes-lanes-field");
     lanes_container.setAttribute("view-group", 0);  // As default, 'All' tab selected
 

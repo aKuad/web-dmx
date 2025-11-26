@@ -1,14 +1,13 @@
 @charset "UTF-8";
 
-#DMXLanes-tabs-field {
-  overflow-x: scroll;
+.DMXLanes-tabs-field {
+  display: inline-block;
 }
 
 .DMXLanes-tab {
   display: inline-block;
   background-color: hsla(0, 0%, 80%, 0.2);
   border-left: solid 1px #000;
-  border-top: solid 1px #000;
   width: calc(3em - 1px);
   padding: 0.5em;
   cursor: pointer;
