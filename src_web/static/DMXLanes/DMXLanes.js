@@ -15,6 +15,13 @@ export class DMXLanes extends EventTarget {
   #tab_radio_elements = [];
 
   /**
+   * Current (selected) tab index
+   *
+   * @type {number}
+   */
+  #current_tab_index = 0;
+
+  /**
    * Lane elements array
    *
    * Equals of `container_element.getElementsByClassName("DMXLanes-lane")`
@@ -75,6 +82,10 @@ export class DMXLanes extends EventTarget {
 
       radio.addEventListener("input", () => {
         lanes_container.setAttribute("view-group", i);
+        this.#current_tab_index = i;
+
+        const slider_index_min = this.#current_tab_index === 0 ? 0 : (this.#current_tab_index - 1) * 64;
+        this.#slider_elements[slider_index_min].focus();
       });
       label.appendChild(radio);
       this.#tab_radio_elements.push(radio);
@@ -171,10 +182,11 @@ export class DMXLanes extends EventTarget {
         else if(e.code == "ArrowLeft")
           new_index -= 1;
 
-        if(new_index < 0)
-          new_index = 0;
-        else if(new_index > 511)
-          new_index = 511;
+        const slider_index_min = this.#current_tab_index === 0 ?   0 : (this.#current_tab_index -  1) * 64;
+        const slider_index_max = this.#current_tab_index === 0 ? 511 :  this.#current_tab_index * 64  -  1;
+
+        if(new_index < slider_index_min) new_index = slider_index_min;
+        if(new_index > slider_index_max) new_index = slider_index_max;
 
         e.preventDefault();
         this.#slider_elements[new_index].focus();
