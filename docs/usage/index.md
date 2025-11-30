@@ -2,6 +2,14 @@
 
 Here is a client UI usage guide.
 
+## Channel fader tab
+
+The faders can be switch to show only 64 channels.
+
+![Fader tab - key control](./tabs-key-control.gif)
+
+Key control is also available. Ctrl + 1...9 key, then select a tab 'All'...'449-'.
+
 ## Channel value control
 
 The faders can control with mouse or cursor keys.

@@ -1,6 +1,35 @@
 @charset "UTF-8";
 
-.DMXLanes-container {
+.DMXLanes-tabs-field {
+  display: inline-block;
+}
+
+.DMXLanes-tab {
+  display: inline-block;
+  background-color: hsla(0, 0%, 80%, 0.2);
+  border-left: solid 1px #000;
+  width: calc(3em - 1px);
+  padding: 0.5em;
+  cursor: pointer;
+}
+.DMXLanes-tab:last-child {
+  border-right: solid 1px #000;
+}
+.DMXLanes-tab:has(input:checked) {
+  background-color: hsla(0, 100%, 80%, 0.5);
+}
+
+/* !(view-group == 0 || view-group == n) */
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="1"]) > .DMXLanes-lanes-group-1 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="2"]) > .DMXLanes-lanes-group-2 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="3"]) > .DMXLanes-lanes-group-3 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="4"]) > .DMXLanes-lanes-group-4 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="5"]) > .DMXLanes-lanes-group-5 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="6"]) > .DMXLanes-lanes-group-6 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="7"]) > .DMXLanes-lanes-group-7 { display: none; }
+:not(.DMXLanes-lanes-field[view-group="0"], .DMXLanes-lanes-field[view-group="8"]) > .DMXLanes-lanes-group-8 { display: none; }
+
+.DMXLanes-lanes-field {
   display: flex;
   flex-direction: row;
 }

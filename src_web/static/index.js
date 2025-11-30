@@ -10,20 +10,29 @@ import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_pa
 
 globalThis.addEventListener("load", () => {
   // Variables
-  const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-container"));
+  const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-tabs-container"), document.getElementById("dmx-lanes-lanes-container"));
   const is_demo = location.hostname.endsWith("github.io");
   const ws = is_demo ? new EventTarget() : new WebSocket("/api/controller");  // For demo, instantiate EventTarget alternative of WebSocket
   ws.binaryType = "arraybuffer";
-  const USER_LABELS_STORAGE_KEY = "user-labels-auto-save";
+  const STORAGE_KEY_CURRENT_TAB = "current-tab-auto-save";
+  const STORAGE_KEY_USER_LABELS = "user-labels-auto-save";
+
+
+  // Current tab auto restore
+  //// Restoring
+  dmx_lanes.current_tab = localStorage.getItem(STORAGE_KEY_CURRENT_TAB) || 0;
+  //// Storing
+  globalThis.addEventListener("beforeunload", () => {
+    localStorage.setItem(STORAGE_KEY_CURRENT_TAB, dmx_lanes.current_tab);
+  });
 
 
   // User labels auto restore
   //// Restoring
-  if(localStorage.getItem(USER_LABELS_STORAGE_KEY))
-    dmx_lanes.user_labels_json = localStorage.getItem(USER_LABELS_STORAGE_KEY);
+  dmx_lanes.user_labels_json = localStorage.getItem(STORAGE_KEY_USER_LABELS) || Array(512).fill("");
   //// Storing
   globalThis.addEventListener("beforeunload", () => {
-    localStorage.setItem(USER_LABELS_STORAGE_KEY, dmx_lanes.user_labels_json);
+    localStorage.setItem(STORAGE_KEY_USER_LABELS, dmx_lanes.user_labels_json);
   });
 
 
