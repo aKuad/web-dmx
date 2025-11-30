@@ -246,7 +246,7 @@ export class DMXLanes extends EventTarget {
       throw new RangeError(`tab_index must be in 0~${tab_index_max}, but got ${tab_index}`);
 
     this.#tab_radio_elements[tab_index].click();
-  };
+  }
 
 
   /**
