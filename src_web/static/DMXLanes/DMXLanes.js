@@ -233,6 +233,33 @@ export class DMXLanes extends EventTarget {
 
 
   /**
+   * Switch current tab by tab index
+   *
+   * @param {number} tab_index Tab index to switch
+   *
+   * @throws {RangeError} When `tab_index` is out of tab index range
+   */
+  set current_tab(tab_index) {
+    const tab_index_max = this.#tab_radio_elements.length - 1;
+
+    if(tab_index < 0 || tab_index_max < tab_index)
+      throw new RangeError(`tab_index must be in 0~${tab_index_max}, but got ${tab_index}`);
+
+    this.#tab_radio_elements[tab_index].click();
+  };
+
+
+  /**
+   * Get current tab index
+   *
+   * @returns {number}
+   */
+  get current_tab() {
+    return this.#current_tab_index;
+  }
+
+
+  /**
    * Set value to a lane
    *
    * MessageEvent("value-changed") won't be dispatched from this method

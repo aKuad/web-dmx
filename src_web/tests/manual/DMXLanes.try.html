@@ -16,7 +16,9 @@
        *
        * Test cases:
        *   - Can display tabs and faders UI
+       *   - Can show/hide faders relating with current tab
        *   - Can dispatch event when any lane value changed (slider or value box) with channel and value
+       *   - Can switch current tab with Ctrl + num key
        *   - Can switch current lane +-  1 step  by up/down arrow key input
        *   - Can switch current lane +-  5 steps by up/down arrow key input with Shift key holding
        *   - Can switch current lane +- 20 steps by up/down arrow key input with Ctrl key holding
@@ -67,6 +69,9 @@
       }
 
       function try_error_check(dmx_lanes) {
+        assertThrows_ecma(() => dmx_lanes.current_tab = -1, RangeError, "tab_index must be in 0~8, but got -1");
+        assertThrows_ecma(() => dmx_lanes.current_tab =  9, RangeError, "tab_index must be in 0~8, but got 9");
+
         assertThrows_ecma(() => dmx_lanes.set_value(  0,   0), RangeError, "channel must be in 1~512, but got 0");
         assertThrows_ecma(() => dmx_lanes.set_value(513,   0), RangeError, "channel must be in 1~512, but got 513");
         assertThrows_ecma(() => dmx_lanes.set_value(  1,  -1), RangeError, "value must be in 0~255, but got -1");
