@@ -20,7 +20,8 @@ globalThis.addEventListener("load", () => {
 
   // Current tab auto restore
   //// Restoring
-  dmx_lanes.current_tab = localStorage.getItem(STORAGE_KEY_CURRENT_TAB) || 0;
+  if(localStorage.getItem(STORAGE_KEY_CURRENT_TAB))
+    dmx_lanes.current_tab = localStorage.getItem(STORAGE_KEY_CURRENT_TAB);
   //// Storing
   globalThis.addEventListener("beforeunload", () => {
     localStorage.setItem(STORAGE_KEY_CURRENT_TAB, dmx_lanes.current_tab);
@@ -29,7 +30,8 @@ globalThis.addEventListener("load", () => {
 
   // User labels auto restore
   //// Restoring
-  dmx_lanes.user_labels_json = localStorage.getItem(STORAGE_KEY_USER_LABELS) || Array(512).fill("");
+  if(localStorage.getItem(STORAGE_KEY_USER_LABELS))
+    dmx_lanes.user_labels_json = localStorage.getItem(STORAGE_KEY_USER_LABELS);
   //// Storing
   globalThis.addEventListener("beforeunload", () => {
     localStorage.setItem(STORAGE_KEY_USER_LABELS, dmx_lanes.user_labels_json);
