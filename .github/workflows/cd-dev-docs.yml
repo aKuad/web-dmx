@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Source checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Build index page
       uses: actions/jekyll-build-pages@v1
       with:
@@ -36,7 +36,7 @@ jobs:
 
     steps:
     - name: Source checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Prepare files
       run: |
         mkdir ui-demo-work
@@ -61,7 +61,7 @@ jobs:
 
     steps:
     - name: Source checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Generate FW api document
       run: docker run --rm -v ./:/github/workspace -w /github/workspace ghcr.io/doxygen/doxygen:Release_1_14_0
     - name: Upload generated docs
@@ -81,7 +81,7 @@ jobs:
 
     steps:
     - name: Source checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Set up Deno
       uses: denoland/setup-deno@v2
       with:
@@ -110,7 +110,7 @@ jobs:
 
     steps:
     - name: Source checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Set up Deno
       uses: denoland/setup-deno@v2
       with:
