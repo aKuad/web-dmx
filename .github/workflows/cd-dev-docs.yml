@@ -164,7 +164,7 @@ jobs:
         name: build-webapp-coverage
         path: webapp-coverage
     - name: Upload artifact for pages deploy
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: .
 
