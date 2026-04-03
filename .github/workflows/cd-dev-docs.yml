@@ -139,27 +139,27 @@ jobs:
 
     steps:
     - name: Place index
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: build-index-usage
         path: .
     - name: Place ui-demo
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: prepare-ui-demo
         path: ui-demo
     - name: Place fw-api
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: build-fw-api
         path: fw-api
     - name: Place webapp-api
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: build-webapp-api
         path: webapp-api
     - name: Place webapp-coverage
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: build-webapp-coverage
         path: webapp-coverage
