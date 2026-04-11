@@ -12,12 +12,10 @@ Deno.serve(request => {
 
 
   /* API endpoints */
-  if(url.pathname.startsWith("/api/websocket-echo")) {
+  if(url.pathname.startsWith("/api/websocket-auto-disconnect")) {
     if(request.headers.get("upgrade") === "websocket") {
       const { socket, response } = Deno.upgradeWebSocket(request);
-      socket.addEventListener("message", e => {
-        socket.send(e.data);
-      });
+      setInterval(() => socket.close(), 2000);
       return response;
 
     } else {
