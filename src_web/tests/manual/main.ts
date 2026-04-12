@@ -12,6 +12,7 @@ Deno.serve(request => {
 
 
   /* API endpoints */
+  // WebSocket API what automatically disconnect in 2 seconds
   if(url.pathname.startsWith("/api/websocket-auto-disconnect")) {
     if(request.headers.get("upgrade") === "websocket") {
       const { socket, response } = Deno.upgradeWebSocket(request);
