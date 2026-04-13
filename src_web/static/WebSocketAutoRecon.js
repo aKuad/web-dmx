@@ -69,6 +69,12 @@ export class WebSocketAutoRecon {
     this.#ws.addEventListener("error", this.#reconnect.bind(this));
   }
 
+  /**
+   * @param {BinaryType} binaryType Data type at message event ArrayBuffer or Blob
+   */
+  set binaryType(binaryType) {
+    this.#ws.binaryType = binaryType;
+  }
 
   set on_open(listener) {
     this.#ws.removeEventListener("open", this.#on_open_listener);
@@ -100,7 +106,10 @@ export class WebSocketAutoRecon {
     await new Promise(resolve => setTimeout(resolve, reconnect_ms));
 
     // WebSocket re-instantiate with same URL
-    this.#ws = new WebSocket(this.#ws.url);
+    const url = this.#ws.url;
+    const binaryType = this.#ws.binaryType;
+    this.#ws = new WebSocket(url);
+    this.#ws.binaryType = binaryType;
 
     this.#ws.addEventListener("open"   , this.#on_open_listener);
     this.#ws.addEventListener("message", this.#on_message_listener);
