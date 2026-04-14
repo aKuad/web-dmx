@@ -78,6 +78,17 @@ export class WebSocketAutoRecon {
     this.#ws.binaryType = binaryType;
   }
 
+
+  /**
+   * Compatible method of `WebSocket.send()`
+   *
+   * @param {string | ArrayBufferLike | Blob | ArrayBufferView} data 
+   */
+  send(data) {
+    this.#ws.send(data);
+  }
+
+
   set on_open(listener) {
     this.#ws.removeEventListener("open", this.#on_open_listener);
     this.#on_open_listener = listener;
