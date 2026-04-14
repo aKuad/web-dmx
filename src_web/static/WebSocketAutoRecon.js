@@ -70,6 +70,8 @@ export class WebSocketAutoRecon {
   }
 
   /**
+   * Compatible property of `WebSocket.binaryType`
+   *
    * @param {BinaryType} binaryType Data type at message event ArrayBuffer or Blob
    */
   set binaryType(binaryType) {
