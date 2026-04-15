@@ -19,9 +19,9 @@
 
       window.addEventListener("load", () => {
         const web_socket_auto_recon = new WebSocketAutoRecon("/api/websocket-auto-disconnect", 3000);
-        web_socket_auto_recon.on_open = () => console.log("Opened - Expects disconnected after 2 sec");
-        web_socket_auto_recon.on_close = () => console.log("Closed - Expects connected after 3 sec");
-        web_socket_auto_recon.on_error = () => console.log("Error - Expects connected after 3 sec");
+        web_socket_auto_recon.addEventListener("open" , () => console.log("Opened - Expects disconnected after 2 sec"));
+        web_socket_auto_recon.addEventListener("close", () => console.log("Closed - Expects connected after 3 sec"));
+        web_socket_auto_recon.addEventListener("error", () => console.log("Error - Expects connected after 3 sec"));
       });
     </script>
   </head>
