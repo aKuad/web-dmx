@@ -14,6 +14,8 @@
        *
        * Test cases:
        *   - Can reconnect websocket when disconnected after specified duration
+       *   - Can set event listener compatible with `WebSocket`
+       *   - Can send data compatible with `WebSocket`
        */
       import { WebSocketAutoRecon } from "/static/WebSocketAutoRecon.js"
 
@@ -22,10 +24,19 @@
         web_socket_auto_recon.addEventListener("open" , () => console.log("Opened - Expects disconnected after 2 sec"));
         web_socket_auto_recon.addEventListener("close", () => console.log("Closed - Expects connected after 3 sec"));
         web_socket_auto_recon.addEventListener("error", () => console.log("Error - Expects connected after 3 sec"));
+
+        document.getElementById("ws-send").addEventListener("click", () => {
+          web_socket_auto_recon.send(document.getElementById("ws-data").value);
+        });
+
+        web_socket_auto_recon.addEventListener("message", e => {
+          console.log(`WebSocket received: ${e.data}`);
+        });
       });
     </script>
   </head>
 
   <body>
+    <p><input type="text" id="ws-data"><button id="ws-send">Send</button></p>
   </body>
 </html>
