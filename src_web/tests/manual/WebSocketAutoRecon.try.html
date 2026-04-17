@@ -16,6 +16,7 @@
        *   - Can reconnect websocket when disconnected after specified duration
        *   - Can set event listener compatible with `WebSocket`
        *   - Can send data compatible with `WebSocket`
+       *   - Can get connection state compatible with `WebSocket`
        */
       import { WebSocketAutoRecon } from "/static/WebSocketAutoRecon.js"
 
@@ -32,11 +33,16 @@
         web_socket_auto_recon.addEventListener("message", e => {
           console.log(`WebSocket received: ${e.data}`);
         });
+
+        document.getElementById("ws-state").addEventListener("click", () => {
+          console.log(`WebSocket state - ${web_socket_auto_recon.readyState}`);
+        });
       });
     </script>
   </head>
 
   <body>
     <p><input type="text" id="ws-data"><button id="ws-send">Send</button></p>
+    <p><button id="ws-state">See readyState</button></p>
   </body>
 </html>

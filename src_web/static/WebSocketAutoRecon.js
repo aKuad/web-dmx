@@ -80,6 +80,16 @@ export class WebSocketAutoRecon {
 
 
   /**
+   * Compatible property of `WebSocket.readyState`
+   *
+   * @returns {number} State of websocket connection
+   */
+  get readyState() {
+    return this.#ws.readyState;
+  }
+
+
+  /**
    * Compatible method of `WebSocket.send()`
    *
    * @param {string | ArrayBufferLike | Blob | ArrayBufferView} data Data content to send
