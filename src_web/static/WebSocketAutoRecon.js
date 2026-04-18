@@ -154,6 +154,5 @@ export class WebSocketAutoRecon {
     this.#on_error_listener  .forEach(f => ws.addEventListener("error"  , f));
 
     this.#ws.addEventListener("close", this.#reconnect.bind(this));
-    this.#ws.addEventListener("error", this.#reconnect.bind(this));
   }
 }
