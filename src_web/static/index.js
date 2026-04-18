@@ -4,6 +4,7 @@
 
 import { DMXLanes } from "./DMXLanes/DMXLanes.js";
 import { export_as_download } from "./export_as_download.js";
+import { WebSocketAutoRecon } from "./WebSocketAutoRecon.js";
 import { decode_lanes_initialize_packet, is_lanes_initialize_packet } from "./packet/lanes_initialize.js";
 import { encode_lane_modify_packet, decode_lane_modify_packet, is_lane_modify_packet } from "./packet/lane_modify.js";
 
@@ -12,7 +13,7 @@ globalThis.addEventListener("load", () => {
   // Variables
   const dmx_lanes = new DMXLanes(document.getElementById("dmx-lanes-tabs-container"), document.getElementById("dmx-lanes-lanes-container"));
   const is_demo = location.hostname.endsWith("github.io");
-  const ws = is_demo ? new EventTarget() : new WebSocket("/api/controller");  // For demo, instantiate EventTarget alternative of WebSocket
+  const ws = is_demo ? new EventTarget() : new WebSocketAutoRecon("/api/controller", 3000); // For demo, instantiate EventTarget alternative of WebSocket
   ws.binaryType = "arraybuffer";
   const STORAGE_KEY_CURRENT_TAB = "current-tab-auto-save";
   const STORAGE_KEY_USER_LABELS = "user-labels-auto-save";
@@ -84,6 +85,6 @@ globalThis.addEventListener("load", () => {
 
 
   // Server disconnected view
-  ws.addEventListener("close", () => document.getElementById("error-view").innerText = "Connection closed by server");
-  ws.addEventListener("error", () => document.getElementById("error-view").innerText = "Connection error occurred");
+  ws.addEventListener("close", () => document.getElementById("error-view").style.display = "");
+  ws.addEventListener("open" , () => document.getElementById("error-view").style.display = "none"); // On reconnected
 });

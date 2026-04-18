@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script type="module">
+      /**
+       * Test for `WebSocketAutoRecon.js`
+       *
+       * Test steps:
+       *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
+       *   2. Access to `http://localhost:8000/WebSocketAutoRecon.try.html` with browser
+       *   3. Open JavaScript console
+       *   4. Check display view or console
+       *
+       * Test cases:
+       *   - Can reconnect websocket when disconnected after specified duration
+       *   - Can set event listener compatible with `WebSocket`
+       *   - Can send data compatible with `WebSocket`
+       *   - Can get connection state compatible with `WebSocket`
+       */
+      import { WebSocketAutoRecon } from "/static/WebSocketAutoRecon.js"
+
+      window.addEventListener("load", () => {
+        const web_socket_auto_recon = new WebSocketAutoRecon("/api/websocket-auto-disconnect", 3000);
+        web_socket_auto_recon.addEventListener("open" , () => console.log("Opened - Expects disconnected after 2 sec"));
+        web_socket_auto_recon.addEventListener("close", () => console.log("Closed - Expects connected after 3 sec"));
+        web_socket_auto_recon.addEventListener("error", () => console.log("Error - Expects connected after 3 sec"));
+
+        document.getElementById("ws-send").addEventListener("click", () => {
+          web_socket_auto_recon.send(document.getElementById("ws-data").value);
+        });
+
+        web_socket_auto_recon.addEventListener("message", e => {
+          console.log(`WebSocket received: ${e.data}`);
+        });
+
+        document.getElementById("ws-state").addEventListener("click", () => {
+          console.log(`WebSocket state - ${web_socket_auto_recon.readyState}`);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <p><input type="text" id="ws-data"><button id="ws-send">Send</button></p>
+    <p><button id="ws-state">See readyState</button></p>
+  </body>
+</html>
