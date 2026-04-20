@@ -47,8 +47,8 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t vcp_rx_buf[3];
-uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
+static uint8_t vcp_rx_buf[3];
+static uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {};  // +1 for start code
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
