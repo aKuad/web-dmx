@@ -118,6 +118,3 @@ header {
   left: 0;
   bottom: 20vh;
 }
-#error-view:empty {
-  display: none;
-}
