@@ -75,11 +75,11 @@ globalThis.addEventListener("load", () => {
   ws.addEventListener("message", e => {
     if(is_lane_modify_packet(e.data)) {
       const { channel, value } = decode_lane_modify_packet(e.data);
-      dmx_lanes.set_value(channel, value);
+      dmx_lanes.set_value(channel, value, false);
 
     } else if(is_lanes_initialize_packet(e.data)) {
       const values = decode_lanes_initialize_packet(e.data);
-      values.forEach((value, index) => dmx_lanes.set_value(index + 1, value));
+      values.forEach((value, index) => dmx_lanes.set_value(index + 1, value, false));
     }
   });
 
