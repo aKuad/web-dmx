@@ -122,9 +122,10 @@ export class DMXLanes extends EventTarget {
       value_box.step = 1;
       value_box.value = 0;
 
-      const user_label = document.createElement("p");
+      const user_label = document.createElement("input");
       user_label.classList.add("DMXLanes-user-label");
       user_label.contentEditable = true;
+      user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
 
       slider.addEventListener("input", (e => {
         value_box.value = e.target.value;
@@ -299,7 +300,7 @@ export class DMXLanes extends EventTarget {
 
     const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
     label_elements.forEach((e, i) => {
-      e.innerText = labels[i];
+      e.value = labels[i];
     });
   }
 
@@ -311,7 +312,7 @@ export class DMXLanes extends EventTarget {
    */
   get user_labels_json() {
     const label_elements = this.#lane_elements.map(e => e.getElementsByClassName("DMXLanes-user-label")[0]);
-    const labels = label_elements.map(e => e.innerText);
+    const labels = label_elements.map(e => e.value);
     const labels_json = JSON.stringify(labels);
     return labels_json;
   }
