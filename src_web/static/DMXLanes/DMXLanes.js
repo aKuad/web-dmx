@@ -127,12 +127,11 @@ export class DMXLanes extends EventTarget {
       user_label.contentEditable = true;
       user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
 
-      slider.addEventListener("input", (e => {
-        value_box.value = e.target.value;
-        this.dispatchEvent(new MessageEvent("value-changed", { data: e.target.value, origin: current_channel }));
-      }).bind(this));
+      slider.addEventListener("input", e => {
+        this.set_value(current_channel, e.target.value, true);
+      });
 
-      value_box.addEventListener("input", (e => {
+      value_box.addEventListener("input", e => {
         if(e.target.value < 0)
           e.target.value = 0;
         if(e.target.value > 255)
@@ -140,9 +139,8 @@ export class DMXLanes extends EventTarget {
         if(e.target.value === "")
           e.target.value = 0;
 
-        slider.value = e.target.value;
-        this.dispatchEvent(new MessageEvent("value-changed", { data: e.target.value, origin: current_channel }));
-      }).bind(this));
+        this.set_value(current_channel, e.target.value, true);
+      });
 
       // Elements applying
       lane.append(ch, slider, value_box, user_label);
@@ -223,10 +221,8 @@ export class DMXLanes extends EventTarget {
         else if(new_value > 255)
           new_value = 255;
 
-        if(current_value != new_value) {
+        if(current_value != new_value)
           this.set_value(active_slider_index + 1, new_value, true);
-          this.dispatchEvent(new MessageEvent("value-changed", { data: new_value, origin: active_slider_index + 1 }));
-        }
         return;
       }
     });
@@ -263,12 +259,11 @@ export class DMXLanes extends EventTarget {
   /**
    * Set value to a lane
    *
-   * MessageEvent("value-changed") won't be dispatched from this method
-   *
    * @param {number} channel Channel to set value
    * @param {number} value Modified value
+   * @param {boolean} dispatch_event True to dispatch 'value-changed' event on value changed
    */
-  set_value(channel, value) {
+  set_value(channel, value, dispatch_event = false) {
     // Arguments check
     if(channel < 1 || 512 < channel)
       throw new RangeError(`channel must be in 1~512, but got ${channel}`);
@@ -280,8 +275,18 @@ export class DMXLanes extends EventTarget {
     const slider    = lane.getElementsByClassName("DMXLanes-slider")[0];
     const value_box = lane.getElementsByClassName("DMXLanes-value-box")[0];
 
-    slider.value    = value;
-    value_box.value = value;
+    let has_value_changed = false;
+    if(slider.value != value) {
+      slider.value = value;
+      has_value_changed = true;
+    }
+    if(value_box.value != value) {
+      value_box.value = value;
+      has_value_changed = true;
+    }
+
+    if(dispatch_event && has_value_changed)
+      this.dispatchEvent(new MessageEvent("value-changed", { data: value, origin: channel }));
   }
 
 
