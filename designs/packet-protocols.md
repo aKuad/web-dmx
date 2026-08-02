@@ -1,53 +1,60 @@
 # Packet protocols
 
-## Lane modify packet (device)
+## System overview
 
-Direction: Server -> Device
+```mermaid
+flowchart LR
+  A(Web Client) <-->|LAN| B(Web Server)
+  B <-->|USB Serial| C(DIY Device)
+  C -->|DMX signal| D(DMX Device)
+```
 
-| Length \[bytes\] | Type        | Description    |
-| ---------------: | ----------- | -------------- |
-|                2 | uint16 (\*) | Channel number |
-|                1 | uint8       | Channel value  |
+## Lane modify packet
 
-> [!NOTE]
->
-> (\*) uint16 value must be little endian.
+Direction:
 
-## Value request packet (device)
+- Web Server -> DIY Device
+- Web Client -> Web Server
+  - for own control send
+- Web Client <- Web Server
+  - for other client control sync
 
-Direction: Server -> Device
+| Byte index | Bits | Description        |
+| ---------: | ---: | ------------------ |
+|          0 |  7:6 | Reserved (0b00)    |
+|          0 |    5 | Lane ON: 1, OFF: 0 |
+|          0 |  4:1 | Reserved (0b0000)  |
+|          0 |    0 | Channel MSB 8      |
+|          1 |  7:0 | Channel LSB 7:0    |
+|          2 |  7:0 | Channel value      |
 
-| Length \[bytes\] | Type       | Description        |
-| ---------------: | ---------- | ------------------ |
-|                3 | uint8 (\*) | Signal (0xFF \* 3) |
+## Values request packet
 
-## Values response packet (device)
+Direction:
 
-Direction: Server <- Device
+- Web Server -> Device
 
-| Length \[bytes\] | Type  | Description                              |
-| ---------------: | ----- | ---------------------------------------- |
-|              512 | uint8 | All channel values, start from channel 1 |
+| Byte index | Bits | Description         |
+| ---------: | ---: | ------------------- |
+|        0:2 |  7:0 | Magic signal (0xFF) |
 
-## Lane modify packet (web)
+## Lanes initialize packet
 
-Direction: Client <-> Server
+Direction:
 
-Client to server: for own control send
+- Web Server <- Device
+  - As response of 'Values request packet'
+- Client <- Web Server
 
-Server to client: for other client control sync
-
-| Length \[bytes\] | Type        | Description           |
-| ---------------: | ----------- | --------------------- |
-|                1 | uint8       | Packet type ID (0x10) |
-|                2 | uint16 (\*) | Channel number        |
-|                1 | uint8       | Channel value         |
-
-## Lanes initialize packet (web)
-
-Direction: Client <- Server
-
-| Length \[bytes\] | Type  | Description                              |
-| ---------------: | ----- | ---------------------------------------- |
-|                1 | uint8 | Packet type ID (0x11)                    |
-|              512 | uint8 | All channel values, start from channel 1 |
+| Byte index | Bits | Description               |
+| ---------: | ---: | ------------------------- |
+|          0 |    0 | Channel 1 ON: 1, OFF: 0   |
+|          0 |    1 | Channel 2 ON: 1, OFF: 0   |
+|          - |    - | ...                       |
+|         63 |    6 | Channel 511 ON: 1, OFF: 0 |
+|         63 |    7 | Channel 512 ON: 1, OFF: 0 |
+|         64 |  7:0 | Channel 1 value           |
+|         65 |  7:0 | Channel 2 value           |
+|          - |    - | ...                       |
+|        574 |  7:0 | Channel 511 value         |
+|        575 |  7:0 | Channel 512 value         |
