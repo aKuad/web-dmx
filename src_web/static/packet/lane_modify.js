@@ -8,11 +8,6 @@
 
 
 /**
- * Packet ID of lane-modify
- */
-const PACKET_ID_LANE_MODIFY = 0x10;
-
-/**
  * Minimum number of channel
  */
 export const DMX_CHANNEL_MIN = 1;
@@ -38,20 +33,23 @@ export const DMX_VALUE_MAX = 255;
  *
  * @param {number} channel Modified channel to contain
  * @param {number} value Value to contain
+ * @param {boolean} is_on true: lane un-mute, false: lane mute
  * @returns {ArrayBuffer} Encoded packet
  *
  * @throws {RangeError} When not in 1~512 channel passed
  * @throws {RangeError} When not in 0~255 value passed
  */
-export function encode_lane_modify_packet(channel, value) {
+export function encode_lane_modify_packet(channel, value, is_on) {
   if(channel < DMX_CHANNEL_MIN || DMX_CHANNEL_MAX < channel)
     throw new RangeError(`channel must be in 1~512, but got ${channel}`);
   if(value < DMX_VALUE_MIN || DMX_VALUE_MAX < value)
     throw new RangeError(`value must be in 0~255, but got ${value}`);
 
-  const packet = Uint8Array.of(PACKET_ID_LANE_MODIFY, 0, 0, value).buffer;
-  new DataView(packet).setUint16(1, channel, true); // Write channel as little endian
-  return packet;
+  return Uint8Array.of(
+    (is_on ? 1 << 5 : 0) | (((channel - 1) >> 8) & 0b1),
+    (channel - 1) & 0xFF,
+    value
+  );
 }
 
 
@@ -61,6 +59,7 @@ export function encode_lane_modify_packet(channel, value) {
  * @typedef {Object} LaneModifyPacketData
  * @property {number} channel Modified channel
  * @property {number} value Value
+ * @property {boolean} is_on true: lane un-mute, false: lane mute
  */
 
 /**
@@ -76,8 +75,11 @@ export function decode_lane_modify_packet(packet) {
   if(!is_lane_modify_packet(packet))
     throw new Error(`It is not a lane-modify packet - got [${packet_uint8.toString()}]`);
 
-  const channel = new DataView(packet).getUint16(1, true);
-  return {channel: channel, value: packet_uint8[3]};
+  return {
+    channel: (((packet_uint8[0] & 0b1) << 8) | packet_uint8[1]) + 1,
+    value: packet_uint8[2],
+    is_on: Boolean(packet_uint8[0] & 0b00100000)
+  };
 }
 
 
@@ -88,8 +90,5 @@ export function decode_lane_modify_packet(packet) {
  * @returns {boolean} `packet` is lane-modify packet: true, otherwise: false
  */
 export function is_lane_modify_packet(packet) {
-  if(packet.byteLength !== 4) return false;
-
-  const packet_id = new DataView(packet).getUint8(0);
-  return packet_id === PACKET_ID_LANE_MODIFY;
+  return packet.byteLength === 3;
 }

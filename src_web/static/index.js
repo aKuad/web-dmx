@@ -65,7 +65,7 @@ globalThis.addEventListener("load", () => {
   dmx_lanes.addEventListener("value-changed", e => {
     const channel = Number(e.origin);
     const value = e.data;
-    const packet = encode_lane_modify_packet(channel, value);
+    const packet = encode_lane_modify_packet(channel, value, true);
     if(ws.readyState === WebSocket.OPEN)
       ws.send(packet);
   });

@@ -23,7 +23,7 @@ Deno.test(async function true_cases(t) {
    * - Can verify the packet is valid lane-modify packet
    */
   await t.step(function encode_verify_decode_min() {
-    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MIN, DMX_VALUE_MIN);
+    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MIN, DMX_VALUE_MIN, true);
     const {channel, value} = decode_lane_modify_packet(packet);
 
     assertEquals(is_lane_modify_packet(packet), true);
@@ -36,7 +36,7 @@ Deno.test(async function true_cases(t) {
    * - Maximum value case of `encode_verify_decode_min`
    */
   await t.step(function encode_verify_decode_max() {
-    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MAX, DMX_VALUE_MAX);
+    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MAX, DMX_VALUE_MAX, true);
     const {channel, value} = decode_lane_modify_packet(packet);
 
     assertEquals(is_lane_modify_packet(packet), true);
@@ -52,26 +52,24 @@ Deno.test(async function err_cases(t) {
    * - Can detect value is not in 0~255
    */
   await t.step(function encode_invalid_argument() {
-    assertThrows(() => encode_lane_modify_packet(  0,   0), RangeError, "channel must be in 1~512, but got 0");
-    assertThrows(() => encode_lane_modify_packet(513,   0), RangeError, "channel must be in 1~512, but got 513");
-    assertThrows(() => encode_lane_modify_packet(  1,  -1), RangeError, "value must be in 0~255, but got -1");
-    assertThrows(() => encode_lane_modify_packet(  1, 256), RangeError, "value must be in 0~255, but got 256");
+    assertThrows(() => encode_lane_modify_packet(  0,   0, true), RangeError, "channel must be in 1~512, but got 0");
+    assertThrows(() => encode_lane_modify_packet(513,   0, true), RangeError, "channel must be in 1~512, but got 513");
+    assertThrows(() => encode_lane_modify_packet(  1,  -1, true), RangeError, "value must be in 0~255, but got -1");
+    assertThrows(() => encode_lane_modify_packet(  1, 256, true), RangeError, "value must be in 0~255, but got 256");
   });
 
 
   /**
    * - Can detect non lane-modify packet
-   *   - When length is not 4 bytes
+   *   - When length is not 3 bytes
    *   - When packet ID is not match
    */
   await t.step(function decode_invalid_packet() {
-    const packet_too_short  = Uint8Array.of(0x10, 0x01, 0x00).buffer;
-    const packet_too_long   = Uint8Array.of(0x10, 0x01, 0x00, 0x00, 0x10).buffer;  // 0x10 as extra byte
-    const packet_invalid_id = Uint8Array.of(0x11, 0x01, 0x00, 0x00).buffer;        // 0x11 as non 0x10 value
+    const packet_too_short  = Uint8Array.of(0x01, 0x00).buffer;
+    const packet_too_long   = Uint8Array.of(0x01, 0x00, 0x00, 0x10).buffer;  // 0x10 as extra byte
 
-    assertThrows(() => decode_lane_modify_packet(packet_too_short) , Error, "It is not a lane-modify packet - got [16,1,0]");
-    assertThrows(() => decode_lane_modify_packet(packet_too_long ) , Error, "It is not a lane-modify packet - got [16,1,0,0,16]");
-    assertThrows(() => decode_lane_modify_packet(packet_invalid_id), Error, "It is not a lane-modify packet - got [17,1,0,0]");
+    assertThrows(() => decode_lane_modify_packet(packet_too_short) , Error, "It is not a lane-modify packet - got [1,0]");
+    assertThrows(() => decode_lane_modify_packet(packet_too_long ) , Error, "It is not a lane-modify packet - got [1,0,0,16]");
   });
 
 
