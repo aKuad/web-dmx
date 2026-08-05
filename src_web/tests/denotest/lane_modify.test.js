@@ -23,12 +23,13 @@ Deno.test(async function true_cases(t) {
    * - Can verify the packet is valid lane-modify packet
    */
   await t.step(function encode_verify_decode_min() {
-    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MIN, DMX_VALUE_MIN, true);
-    const {channel, value} = decode_lane_modify_packet(packet);
+    const packet                  = encode_lane_modify_packet(DMX_CHANNEL_MIN, DMX_VALUE_MIN, false);
+    const {channel, value, is_on} = decode_lane_modify_packet(packet);
 
     assertEquals(is_lane_modify_packet(packet), true);
     assertEquals(channel, DMX_CHANNEL_MIN);
     assertEquals(value, DMX_VALUE_MIN);
+    assertEquals(is_on, false);
   });
 
 
@@ -36,12 +37,13 @@ Deno.test(async function true_cases(t) {
    * - Maximum value case of `encode_verify_decode_min`
    */
   await t.step(function encode_verify_decode_max() {
-    const packet           = encode_lane_modify_packet(DMX_CHANNEL_MAX, DMX_VALUE_MAX, true);
-    const {channel, value} = decode_lane_modify_packet(packet);
+    const packet                  = encode_lane_modify_packet(DMX_CHANNEL_MAX, DMX_VALUE_MAX, true);
+    const {channel, value, is_on} = decode_lane_modify_packet(packet);
 
     assertEquals(is_lane_modify_packet(packet), true);
     assertEquals(channel, DMX_CHANNEL_MAX);
     assertEquals(value, DMX_VALUE_MAX);
+    assertEquals(is_on, true);
   });
 });
 
