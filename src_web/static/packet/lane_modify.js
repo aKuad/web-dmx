@@ -49,7 +49,7 @@ export function encode_lane_modify_packet(channel, value, is_on) {
     (is_on ? 1 << 5 : 0) | (((channel - 1) >> 8) & 0b1),
     (channel - 1) & 0xFF,
     value
-  );
+  ).buffer;
 }
 
 
