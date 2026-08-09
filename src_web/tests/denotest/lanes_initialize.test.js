@@ -23,8 +23,9 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function encode_verify_decode() {
     const values_org = new Uint8Array(DMX_CHANNEL_COUNT);
-    const packet = encode_lanes_initialize_packet(values_org);
-    const values = decode_lanes_initialize_packet(packet);
+    const is_on_org  = new Array(DMX_CHANNEL_COUNT).fill(true);
+    const packet = encode_lanes_initialize_packet(values_org, is_on_org);
+    const { values } = decode_lanes_initialize_packet(packet);
 
     assertEquals(is_lanes_initialize_packet(packet), true);
     assertEquals(values, values_org);
@@ -50,19 +51,15 @@ Deno.test(async function err_cases(t) {
    *   - When packet ID is not match
    */
   await t.step(function decode_invalid_packet() {
-    const packet_correct = new Uint8Array(DMX_CHANNEL_COUNT + 1);
-    packet_correct[0] = 0x11; // Packet ID set
-    packet_correct[1] = 0x00; // Min value as test data
-    packet_correct[2] = 0xff; // Max value as test data
+    const packet_correct = new Uint8Array(DMX_CHANNEL_COUNT + DMX_CHANNEL_COUNT / 8);
+    packet_correct[0] = 0x00; // Min value as test data
+    packet_correct[1] = 0xff; // Max value as test data
 
     const packet_too_short  = Uint8Array.of(...packet_correct.slice(0, -1)).buffer; // Cut last 1 byte
     const packet_too_long   = Uint8Array.of(...packet_correct, 0x00).buffer;  // 0x00 as extra byte
-    const packet_invalid_id = Uint8Array.of(...packet_correct).buffer;
-    new DataView(packet_invalid_id).setUint8(0, 0x12);  // 0x12 as non 0x11 value
 
     assertThrows(() => decode_lanes_initialize_packet(packet_too_short) , Error, "It is not a lanes-initialize packet");
     assertThrows(() => decode_lanes_initialize_packet(packet_too_long)  , Error, "It is not a lanes-initialize packet");
-    assertThrows(() => decode_lanes_initialize_packet(packet_invalid_id), Error, "It is not a lanes-initialize packet");
   });
 
 
