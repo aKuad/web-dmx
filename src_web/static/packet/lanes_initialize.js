@@ -21,13 +21,14 @@ export const DMX_CHANNEL_COUNT = 512;
  * @returns {ArrayBuffer} Encoded packet
  *
  * @throws {RangeError} When `values` length is not 512
+ * @throws {RangeError} When `is_on` length is not 512
  */
 export function encode_lanes_initialize_packet(values, is_on) {
   if(values.length !== DMX_CHANNEL_COUNT)
     throw new RangeError(`values length must be 512, but got ${values.length}`);
 
   if(is_on.length !== DMX_CHANNEL_COUNT)
-    throw new RangeError(`is_on_flags length must be 512, but got ${is_on.length}`);
+    throw new RangeError(`is_on length must be 512, but got ${is_on.length}`);
 
   const is_on_bytes = new Uint8Array(DMX_CHANNEL_COUNT / 8);
   is_on.forEach((is_on_current, i) => {
