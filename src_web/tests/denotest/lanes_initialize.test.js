@@ -23,11 +23,23 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function encode_verify_decode() {
     const values_org = new Uint8Array(DMX_CHANNEL_COUNT);
-    const packet = encode_lanes_initialize_packet(values_org);
-    const values = decode_lanes_initialize_packet(packet);
+    values_org[0] = 0;    // Min case
+    values_org[1] = 255;  // Max case
+    const is_on_org  = new Array(DMX_CHANNEL_COUNT).fill(true);
+    is_on_org[0] = false; // For all false byte test
+    is_on_org[1] = false; //
+    is_on_org[2] = false; //
+    is_on_org[3] = false; //
+    is_on_org[4] = false; //
+    is_on_org[5] = false; //
+    is_on_org[6] = false; //
+    is_on_org[7] = false; //
+    const packet = encode_lanes_initialize_packet(values_org, is_on_org);
+    const { values, is_on } = decode_lanes_initialize_packet(packet);
 
     assertEquals(is_lanes_initialize_packet(packet), true);
     assertEquals(values, values_org);
+    assertEquals(is_on, is_on_org);
   });
 });
 
@@ -35,34 +47,36 @@ Deno.test(async function true_cases(t) {
 Deno.test(async function err_cases(t) {
   /**
    * - Can detect values length is not 512
+   * - Can detect is_on length is not 512
    */
   await t.step(function encode_invalid_argument() {
+    const values_correct   = new Uint8Array(DMX_CHANNEL_COUNT);
     const values_too_short = new Uint8Array(DMX_CHANNEL_COUNT - 1);
     const values_too_long  = new Uint8Array(DMX_CHANNEL_COUNT + 1);
-    assertThrows(() => encode_lanes_initialize_packet(values_too_short), RangeError, "values length must be 512, but got 511");
-    assertThrows(() => encode_lanes_initialize_packet(values_too_long) , RangeError, "values length must be 512, but got 513");
+    const is_on_correct    = Array(DMX_CHANNEL_COUNT).fill(true);
+    const is_on_too_short  = Array(DMX_CHANNEL_COUNT - 1).fill(true);
+    const is_on_too_long   = Array(DMX_CHANNEL_COUNT + 1).fill(true);
+    assertThrows(() => encode_lanes_initialize_packet(values_too_short, is_on_correct  ), RangeError, "values length must be 512, but got 511");
+    assertThrows(() => encode_lanes_initialize_packet(values_too_long , is_on_correct  ), RangeError, "values length must be 512, but got 513");
+    assertThrows(() => encode_lanes_initialize_packet(values_correct  , is_on_too_short), RangeError, "is_on length must be 512, but got 511");
+    assertThrows(() => encode_lanes_initialize_packet(values_correct  , is_on_too_long ), RangeError, "is_on length must be 512, but got 513");
   });
 
 
   /**
    * - Can detect non lanes-initialize packet
-   *   - When length is not 513 bytes
-   *   - When packet ID is not match
+   *   - When length is invalid
    */
   await t.step(function decode_invalid_packet() {
-    const packet_correct = new Uint8Array(DMX_CHANNEL_COUNT + 1);
-    packet_correct[0] = 0x11; // Packet ID set
-    packet_correct[1] = 0x00; // Min value as test data
-    packet_correct[2] = 0xff; // Max value as test data
+    const packet_correct = new Uint8Array(DMX_CHANNEL_COUNT + DMX_CHANNEL_COUNT / 8);
+    packet_correct[0] = 0x00; // Min case
+    packet_correct[1] = 0xff; // Max case
 
     const packet_too_short  = Uint8Array.of(...packet_correct.slice(0, -1)).buffer; // Cut last 1 byte
     const packet_too_long   = Uint8Array.of(...packet_correct, 0x00).buffer;  // 0x00 as extra byte
-    const packet_invalid_id = Uint8Array.of(...packet_correct).buffer;
-    new DataView(packet_invalid_id).setUint8(0, 0x12);  // 0x12 as non 0x11 value
 
     assertThrows(() => decode_lanes_initialize_packet(packet_too_short) , Error, "It is not a lanes-initialize packet");
     assertThrows(() => decode_lanes_initialize_packet(packet_too_long)  , Error, "It is not a lanes-initialize packet");
-    assertThrows(() => decode_lanes_initialize_packet(packet_invalid_id), Error, "It is not a lanes-initialize packet");
   });
 
 
