@@ -63,8 +63,7 @@ Deno.test(async function err_cases(t) {
 
   /**
    * - Can detect non lane-modify packet
-   *   - When length is not 3 bytes
-   *   - When packet ID is not match
+   *   - When length is invalid
    */
   await t.step(function decode_invalid_packet() {
     const packet_too_short  = Uint8Array.of(0x01, 0x00).buffer;
