@@ -8,7 +8,8 @@
 
 
 static uint16_t channel_next = 0;
-static uint8_t value_next = 0;
+static uint8_t  value_next   = 0;
+static bool     lane_on_next = false;
 
 static uint8_t is_lane_modify_received_flag = 0;
 static uint8_t is_values_request_received_flag = 0;
@@ -26,14 +27,11 @@ void serial_input(uint8_t *bytes) {
     return;
   }
 
-  // Lane modify packet processing
-  uint16_t channel = (bytes[1] << 8) | bytes[0];  // Read 2bytes as little endian
-  //// Check is channel in correct range, if not, do nothing
-  if(DMX_CHANNEL_MIN <= channel && channel <= DMX_CHANNEL_MAX) {
-    channel_next = channel;
-    value_next = bytes[2];
-    is_lane_modify_received_flag = 1;
-  }
+  // Lane modify packet decoding
+  channel_next = (((bytes[0] & 0b1) << 8) | bytes[1]) + 1;
+  value_next   = bytes[2];
+  lane_on_next = (bytes[0] >> 5) & 0b1;
+  is_lane_modify_received_flag = 1;
 }
 
 
@@ -52,13 +50,15 @@ uint8_t is_lane_modify_received() {
  *
  * @param[out] channel Received data body - channel
  * @param[out] value Received data body - value
+ * @param[out] lane_on Received data body - lane_on
  * @return 0: received and wrote value, 1: not received
  */
-uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value) {
+uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value, bool *lane_on) {
   if(is_lane_modify_received_flag == 0) return 1; // When not received, return error
 
   *channel = channel_next;
-  *value = value_next;
+  *value   = value_next;
+  *lane_on = lane_on_next;
   is_lane_modify_received_flag = 0;
   return 0;
 }
