@@ -183,7 +183,8 @@ int main(void)
     if(is_lane_modify_received()) {
       uint16_t channel;
       uint8_t value;
-      get_lane_modify_data(&channel, &value);
+      bool lane_on;
+      get_lane_modify_data(&channel, &value, &lane_on);
       dmx_values[channel] = value;  // The array [0] is start code, channel start from 1
     }
     /* USER CODE END WHILE */

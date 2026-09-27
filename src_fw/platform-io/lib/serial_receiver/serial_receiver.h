@@ -7,6 +7,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 
 #define DMX_CHANNEL_MAX 512
@@ -17,7 +18,7 @@
 
 void serial_input(uint8_t *byte);
 uint8_t is_lane_modify_received();
-uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value);
+uint8_t get_lane_modify_data(uint16_t *channel, uint8_t *value, bool *lane_on);
 uint8_t is_values_request_received();
 void reset_values_request_received();
 

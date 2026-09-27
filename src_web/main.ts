@@ -22,6 +22,7 @@ const server_static = serveStatic("static");
 const server_pages  = serveStatic("pages", { index: ["index.html"] });
 const dmx_values_fetch_buf: number[] = [];
 const dmx_values_server = new Uint8Array(DMX_CHANNEL_COUNT);
+const dmx_is_on_server  = new Array(DMX_CHANNEL_COUNT).fill(true);
 const dmx_values_device = new Uint8Array(DMX_CHANNEL_COUNT);
 const ws_clients = new Set<WebSocket>();
 
@@ -121,7 +122,7 @@ wss.on("connection", (socket: WebSocket) => {
   socket.binaryType = "arraybuffer";
 
   // On a client connected
-  socket.send(encode_lanes_initialize_packet(dmx_values_server));
+  socket.send(encode_lanes_initialize_packet(dmx_values_server, dmx_is_on_server));
   ws_clients.add(socket);
 
   socket.addEventListener("message", e => {
