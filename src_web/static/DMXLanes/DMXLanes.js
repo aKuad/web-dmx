@@ -122,11 +122,6 @@ export class DMXLanes extends EventTarget {
       value_box.step = 1;
       value_box.value = 0;
 
-      const user_label = document.createElement("input");
-      user_label.classList.add("DMXLanes-user-label");
-      user_label.contentEditable = true;
-      user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
-
       slider.addEventListener("input", e => {
         this.set_value(current_channel, e.target.value, true);
       });
@@ -141,6 +136,11 @@ export class DMXLanes extends EventTarget {
 
         this.set_value(current_channel, e.target.value, true);
       });
+
+      const user_label = document.createElement("input");
+      user_label.classList.add("DMXLanes-user-label");
+      user_label.contentEditable = true;
+      user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
 
       // Elements applying
       lane.append(ch, slider, value_box, user_label);
