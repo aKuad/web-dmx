@@ -173,6 +173,7 @@ export class DMXLanes extends EventTarget {
         e.preventDefault();
         const select_tab_index = Number(e.code.slice(-1)) - 1;
         this.#tab_radio_elements[select_tab_index].click();
+        return;
       }
 
       // Current lane switching
@@ -215,7 +216,7 @@ export class DMXLanes extends EventTarget {
         const active_slider_index = this.#slider_elements.indexOf(document.activeElement);
         if(active_slider_index === -1) return;  // When no sliders are active, do nothing
 
-        if(!e.altKey && !e.ctrlKey && !e.shiftKey) return;  // When no special control, do nothing
+        if(!e.altKey && !e.ctrlKey && !e.shiftKey) return;  // When no special control, do nothing - runs range behavior
         e.preventDefault();
 
         const current_value = Number(this.#slider_elements[active_slider_index].value);
@@ -241,6 +242,14 @@ export class DMXLanes extends EventTarget {
         if(current_value != new_value)
           this.set_value(active_slider_index + 1, new_value, true);
         return;
+      }
+
+      // Lane ON button toggling
+      if(e.code === "Space") {
+        const active_slider_index = this.#slider_elements.indexOf(document.activeElement);
+        if(active_slider_index === -1) return;  // When no sliders are active, do nothing
+
+        this.#lane_on_elements[active_slider_index].click();  // Toggle checkbox true/false
       }
     });
   }
