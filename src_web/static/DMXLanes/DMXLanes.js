@@ -39,6 +39,13 @@ export class DMXLanes extends EventTarget {
    */
   #slider_elements = [];
 
+  /**
+   * Lane ON button (hidden checkbox, not <label>) elements in each lanes
+   *
+   * @type {HTMLInputElement[]}
+   */
+  #lane_on_elements = [];
+
 
   /**
    * Dispatch when a channel value changed (Not dispatch on changed by `set_value()`)
@@ -137,13 +144,23 @@ export class DMXLanes extends EventTarget {
         this.set_value(current_channel, e.target.value, true);
       });
 
+      const lane_on = document.createElement("input");
+      lane_on.type = "checkbox";
+      lane_on.style.display = "none";
+      lane_on.checked = true;
+      lane_on.id = `DMXLanes-lane-on-label-${current_channel}`;
+      const lane_on_label = document.createElement("label");
+      lane_on_label.htmlFor = `DMXLanes-lane-on-label-${current_channel}`;
+      lane_on_label.classList.add("DMXLanes-lane-on-label");
+      this.#lane_on_elements.push(lane_on);
+
       const user_label = document.createElement("input");
       user_label.classList.add("DMXLanes-user-label");
       user_label.contentEditable = true;
       user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
 
       // Elements applying
-      lane.append(ch, slider, value_box, user_label);
+      lane.append(ch, slider, value_box, lane_on, lane_on_label, user_label);
       lanes_container.appendChild(lane);
       this.#lane_elements.push(lane);
     }
