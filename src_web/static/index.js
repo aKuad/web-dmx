@@ -65,7 +65,7 @@ globalThis.addEventListener("load", () => {
   dmx_lanes.addEventListener("value-changed", e => {
     const channel = Number(e.origin);
     const value = e.data;
-    const packet = encode_lane_modify_packet(channel, value);
+    const packet = encode_lane_modify_packet(channel, value, true);
     if(ws.readyState === WebSocket.OPEN)
       ws.send(packet);
   });
@@ -78,7 +78,7 @@ globalThis.addEventListener("load", () => {
       dmx_lanes.set_value(channel, value, false);
 
     } else if(is_lanes_initialize_packet(e.data)) {
-      const values = decode_lanes_initialize_packet(e.data);
+      const { values } = decode_lanes_initialize_packet(e.data);
       values.forEach((value, index) => dmx_lanes.set_value(index + 1, value, false));
     }
   });

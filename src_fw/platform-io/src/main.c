@@ -48,7 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 static uint8_t vcp_rx_buf[3];
-static uint8_t dmx_values[DMX_CHANNEL_COUNT + 1] = {};  // +1 for start code
+static uint8_t dmx_frame[DMX_CHANNEL_COUNT + 1] = {}; // +1 for start code
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,8 +94,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
   // MAB signal duration elapsed
   else if(htim == &htim7) {
-    HAL_UART_Transmit_IT(&huart1, dmx_values, DMX_CHANNEL_COUNT + 1); // Data signal start
-    //                                           for start code ~~~
+    HAL_UART_Transmit_IT(&huart1, dmx_frame, DMX_CHANNEL_COUNT + 1);  // Data signal start
+    //                                          for start code ~~~
     // Reset own timer
     HAL_TIM_Base_Stop_IT(&htim7);
     htim7.Instance->CNT = 0;
@@ -162,7 +162,7 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  dmx_values[0] = DMX_START_CODE;
+  dmx_frame[0] = DMX_START_CODE;
   HAL_UART_Receive_IT(&huart2, vcp_rx_buf, 3); // Start listening for first serial RX
   HAL_UART_TxCpltCallback(&huart1); // Start DMX signal transmit sequence (from data signal TX ended)
   /* USER CODE END 2 */
@@ -174,8 +174,8 @@ int main(void)
   {
     // Values request packet processing
     if(is_values_request_received()) {
-      HAL_UART_Transmit_IT(&huart2, dmx_values + 1, DMX_CHANNEL_COUNT);
-      //              +1 for ignore start code ~~~
+      HAL_UART_Transmit_IT(&huart2, dmx_frame + 1, DMX_CHANNEL_COUNT);
+      //             +1 for ignore start code ~~~
       reset_values_request_received();
     }
 
@@ -183,8 +183,9 @@ int main(void)
     if(is_lane_modify_received()) {
       uint16_t channel;
       uint8_t value;
-      get_lane_modify_data(&channel, &value);
-      dmx_values[channel] = value;  // The array [0] is start code, channel start from 1
+      bool lane_on;
+      get_lane_modify_data(&channel, &value, &lane_on);
+      dmx_frame[channel] = value; // The array [0] is start code, channel start from 1
     }
     /* USER CODE END WHILE */
 
