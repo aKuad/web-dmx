@@ -35,11 +35,17 @@ Cursor key control:
   - Ctrl: 50 value/step
   - Alt: 255 value/step
 
+## Channel ON
+
+ON to apply fader value as channel value. OFF to set channel value 0. For key control, space key to toggle it.
+
+![Lane ON](./lane-on.webp)
+
 You'd like to try it? [UI demo is available.](https://akuad.github.io/web-dmx/ui-demo/)
 
 ## User label
 
-You can write custom text above each faders.
+You can write custom text at bottom of each lanes.
 
 ![User label](./user-label.webp)
 
