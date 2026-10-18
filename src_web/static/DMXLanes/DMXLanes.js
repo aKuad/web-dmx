@@ -39,6 +39,13 @@ export class DMXLanes extends EventTarget {
    */
   #slider_elements = [];
 
+  /**
+   * Lane ON button (hidden checkbox, not <label>) elements in each lanes
+   *
+   * @type {HTMLInputElement[]}
+   */
+  #lane_on_elements = [];
+
 
   /**
    * Dispatch when a channel value changed (Not dispatch on changed by `set_value()`)
@@ -122,11 +129,6 @@ export class DMXLanes extends EventTarget {
       value_box.step = 1;
       value_box.value = 0;
 
-      const user_label = document.createElement("input");
-      user_label.classList.add("DMXLanes-user-label");
-      user_label.contentEditable = true;
-      user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
-
       slider.addEventListener("input", e => {
         this.set_value(current_channel, e.target.value, true);
       });
@@ -142,8 +144,23 @@ export class DMXLanes extends EventTarget {
         this.set_value(current_channel, e.target.value, true);
       });
 
+      const lane_on = document.createElement("input");
+      lane_on.type = "checkbox";
+      lane_on.style.display = "none";
+      lane_on.checked = true;
+      lane_on.id = `DMXLanes-lane-on-label-${current_channel}`;
+      const lane_on_label = document.createElement("label");
+      lane_on_label.htmlFor = `DMXLanes-lane-on-label-${current_channel}`;
+      lane_on_label.classList.add("DMXLanes-lane-on-label");
+      this.#lane_on_elements.push(lane_on);
+
+      const user_label = document.createElement("input");
+      user_label.classList.add("DMXLanes-user-label");
+      user_label.contentEditable = true;
+      user_label.placeholder = " "; // For enable `:placeholder-shown` at `DMXLanes.css`
+
       // Elements applying
-      lane.append(ch, slider, value_box, user_label);
+      lane.append(ch, slider, value_box, lane_on, lane_on_label, user_label);
       lanes_container.appendChild(lane);
       this.#lane_elements.push(lane);
     }
@@ -156,6 +173,7 @@ export class DMXLanes extends EventTarget {
         e.preventDefault();
         const select_tab_index = Number(e.code.slice(-1)) - 1;
         this.#tab_radio_elements[select_tab_index].click();
+        return;
       }
 
       // Current lane switching
@@ -198,7 +216,7 @@ export class DMXLanes extends EventTarget {
         const active_slider_index = this.#slider_elements.indexOf(document.activeElement);
         if(active_slider_index === -1) return;  // When no sliders are active, do nothing
 
-        if(!e.altKey && !e.ctrlKey && !e.shiftKey) return;  // When no special control, do nothing
+        if(!e.altKey && !e.ctrlKey && !e.shiftKey) return;  // When no special control, do nothing - runs range behavior
         e.preventDefault();
 
         const current_value = Number(this.#slider_elements[active_slider_index].value);
@@ -224,6 +242,14 @@ export class DMXLanes extends EventTarget {
         if(current_value != new_value)
           this.set_value(active_slider_index + 1, new_value, true);
         return;
+      }
+
+      // Lane ON button toggling
+      if(e.code === "Space") {
+        const active_slider_index = this.#slider_elements.indexOf(document.activeElement);
+        if(active_slider_index === -1) return;  // When no sliders are active, do nothing
+
+        this.#lane_on_elements[active_slider_index].click();  // Toggle checkbox true/false
       }
     });
   }
