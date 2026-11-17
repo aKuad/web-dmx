@@ -12,6 +12,15 @@ DMX control on web application
 
 ## Deployment
 
+### 0. System overview
+
+```mermaid
+flowchart LR
+  A(Web Client) <-->|LAN| B(Web Server)
+  B <-->|USB Serial| C(DIY Device)
+  C -->|DMX signal| D(DMX Device)
+```
+
 ### 1. Device build
 
 Build the circuit:
