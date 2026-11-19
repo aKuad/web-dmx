@@ -2,8 +2,6 @@
  * Export any data to user as file downloading
  *
  * @module
- *
- * @author aKuad
  */
 
 
