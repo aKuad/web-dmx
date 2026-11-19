@@ -1,5 +1,7 @@
 /**
  * WebSocket feature extended for auto reconnecting
+ *
+ * @module
  */
 
 
