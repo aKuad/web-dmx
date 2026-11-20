@@ -1,7 +1,7 @@
 /**
  * Export any data to user as file downloading
  *
- * @author aKuad
+ * @module
  */
 
 

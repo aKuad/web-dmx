@@ -1,5 +1,7 @@
 /**
  * DMX control lanes UI
+ *
+ * @module
  */
 
 
