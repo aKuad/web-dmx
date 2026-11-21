@@ -69,7 +69,7 @@
   display: block;
   border: none;
   border-bottom: 2px solid hsl(0, 0%, 50%);
-  background-color: hsla(0, 0%, 0%, 0);
+  background-color: transparent;
   color: inherit;
   outline: none;
 
@@ -77,6 +77,27 @@
   padding: 0.2em 0;
   text-align: center;
   width: 3em;
+}
+
+.DMXLanes-lane-on-label {
+  font-family: inherit;
+  font-size: inherit;
+  color: hsl(0, 0%, 90%);
+  border: 1px solid hsl(0, 0%, 50%);
+  background-color: hsl(0, 0%, 50%);
+
+  margin: 1em 0 0 0;
+  padding: 0;
+  text-align: center;
+  width: 2em;
+  line-height: 2em;
+}
+.DMXLanes-lane-on-label::before {
+  content: "ON";
+}
+input[type="checkbox"]:checked + .DMXLanes-lane-on-label {
+  color: hsl(0, 0%, 50%);
+  background-color: hsl(0, 0%, 90%);
 }
 
 .DMXLanes-user-label, .DMXLanes-user-label::placeholder {
@@ -90,7 +111,7 @@
   min-height: 1em;
 
   border: none;
-  background-color: hsla(0, 0%, 0%, 0);
+  background-color: transparent;
   field-sizing: content;
 
   writing-mode: vertical-rl;
@@ -100,6 +121,5 @@
 }
 .DMXLanes-user-label:focus {
   outline: none;
-  /* outline: 1px solid hsla(0, 0%, 90%, 1); */
   border: 1px solid hsla(0, 0%, 90%, 1);
 }
